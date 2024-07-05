@@ -46,7 +46,7 @@ export default function Login() {
             <div className="flex flex-col justify-center items-center h-full">
                 {error.__html && (
                     <div
-                        className="bg-red-500 rounded py-2 px-3 text-white"
+                        className="w-96 bg-red-200  text-center font-semibold text-sm rounded-md  text-red-500 py-2 px-3 mb-2"
                         dangerouslySetInnerHTML={error}
                     ></div>
                 )}

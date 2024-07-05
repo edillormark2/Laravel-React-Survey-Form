@@ -191,19 +191,19 @@ const tmpSurveys = [
 ];
 
 export const ContextProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState({
-        name: "Mark",
-    });
-    const [userToken, setUserToken] = useState("123");
+    const [currentUser, setCurrentUser] = useState({});
+    const [userToken, _setUserToken] = useState(
+        localStorage.getItem("TOKEN") || ""
+    );
     const [surveys, setSurveys] = useState(tmpSurveys);
 
-    const setToken = (token) => {
-        _setToken(token);
+    const setUserToken = (token) => {
         if (token) {
-            localStorage.setItem("ACCESS_TOKEN", token);
+            localStorage.setItem("TOKEN", token);
         } else {
-            localStorage.removeItem("ACCESS_TOKEN");
+            localStorage.removeItem("TOKEN");
         }
+        _setUserToken(token);
     };
 
     return (

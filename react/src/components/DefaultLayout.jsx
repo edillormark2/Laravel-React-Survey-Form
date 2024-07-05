@@ -2,13 +2,23 @@ import React from "react";
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { useStateContext } from "../contexts/ContextProvider";
+import axiosClient from "../axios";
 
 export default function DefaultLayout() {
-    const { currentUser, userToken } = useStateContext();
+    const { currentUser, userToken, setCurrentUser, setUserToken } =
+        useStateContext();
 
     if (!userToken) {
         return <Navigate to="login" />;
     }
+
+    const onLogout = (ev) => {
+        ev.preventDefault();
+        axiosClient.post("logout").then((res) => {
+            setCurrentUser({});
+            setUserToken(null);
+        });
+    };
 
     return (
         <div>
@@ -42,9 +52,17 @@ export default function DefaultLayout() {
                 <div className="flex gap-4">
                     <p className="text-center self-center font-semibold text-slate-500">
                         {currentUser.name}
-                        {userToken}
                     </p>
-                    <FaUserCircle size={34} className="text-gray-300" />
+                    <FaUserCircle
+                        size={34}
+                        className="text-gray-300 self-center"
+                    />
+                    <div
+                        onClick={onLogout}
+                        className="py-1 px-2 self-center text-sm cursor-pointer hover:bg-red-500 text-center bg-red-400 rounded-md text-white"
+                    >
+                        Logout
+                    </div>
                 </div>
             </div>
 

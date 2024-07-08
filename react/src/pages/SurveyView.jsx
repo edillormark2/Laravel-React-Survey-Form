@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { LinkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
 import axiosClient from "../axios.js";
+import { useNavigate } from "react-router-dom";
 
 export default function SurveyView() {
+    const navigate = useNavigate();
+
     const [survey, setSurvey] = useState({
         title: "",
         slug: "",
@@ -14,21 +17,44 @@ export default function SurveyView() {
         expire_date: "",
         questions: [],
     });
+    const [error, setError] = useState("");
 
-    const onImageChoose = () => {
-        console.log("On image choose");
+    const onImageChoose = (ev) => {
+        const file = ev.target.files[0];
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setSurvey({
+                ...survey,
+                image: file,
+                image_url: reader.result,
+            });
+
+            ev.target.value = "";
+        };
+        reader.readAsDataURL(file);
     };
 
     const onSubmit = (ev) => {
         ev.preventDefault();
 
-        axiosClient.post("/survey", {
-            title: "Lorem Ipsum",
-            description: "Testssssssss",
-            expire_date: "11/24/2024",
-            status: true,
-            questions: [],
-        });
+        const payload = { ...survey };
+        if (payload.image) {
+            payload.image = payload.image_url;
+        }
+        delete payload.image_url;
+        axiosClient
+            .post("/survey", payload)
+            .then((res) => {
+                console.log(res);
+                navigate("/surveys");
+            })
+            .catch((err) => {
+                if (err && err.response) {
+                    setError(err.response.data.message);
+                }
+                console.log(err, err.response);
+            });
     };
 
     return (
@@ -36,6 +62,11 @@ export default function SurveyView() {
             <form action="#" method="POST" onSubmit={onSubmit}>
                 <div className="shadow sm:overflow-hidden sm:rounded-md">
                     <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
+                        {error && (
+                            <div className="bg-red-100 text-red-500 p-3 rounded-md">
+                                {error}
+                            </div>
+                        )}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 Photo

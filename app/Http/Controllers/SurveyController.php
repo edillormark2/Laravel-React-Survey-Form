@@ -156,33 +156,36 @@ class SurveyController extends Controller
             $image = substr($image, strpos($image, ',') + 1);
             // Get file extension
             $type = strtolower($type[1]); // jpg, png, gif
-
+    
             // Check if file is an image
             if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
                 throw new \Exception('invalid image type');
             }
             $image = str_replace('','+', $image);
             $image = base64_decode($image);
-
+    
             if ($image === false) {
                 throw new \Exception('base64_decode failed');
             }
         } else {
             throw new \Exception('did not match data URI with image data');
         }
-
+    
         $dir = 'images/';
         $file = Str::random() . '.' . $type;
         $absolutePath = public_path($dir);
         $relativePath = $dir . $file;
+    
+        // Check if the directory exists, if not create it
         if (!File::exists($absolutePath)) {
             File::makeDirectory($absolutePath, 0755, true);
         }
-        file_put_contents($absolutePath, $image);
-
+    
+        file_put_contents($absolutePath . '/' . $file, $image);
+    
         return $relativePath;
-        
     }
+    
 
      /**
      * Create a question and return

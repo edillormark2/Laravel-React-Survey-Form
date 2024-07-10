@@ -8,19 +8,15 @@ export default function SurveyQuestions({ questions, onQuestionsUpdate }) {
 
     const addQuestion = (index) => {
         index = index !== undefined ? index : myQuestions.length;
-        const newQuestions = [
-            ...myQuestions.slice(0, index),
-            {
-                id: uuidv4(),
-                type: "text",
-                question: "",
-                description: "",
-                data: {},
-            },
-            ...myQuestions.slice(index),
-        ];
-        setMyQuestions(newQuestions);
-        onQuestionsUpdate(newQuestions);
+        myQuestions.splice(index, 0, {
+            id: uuidv4(),
+            type: "text",
+            question: "",
+            description: "",
+            data: {},
+        });
+        setMyQuestions([...myQuestions]);
+        onQuestionsUpdate(myQuestions);
     };
 
     const questionChange = (question) => {

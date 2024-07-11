@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -19,6 +19,12 @@ export default function DefaultLayout() {
             setUserToken(null);
         });
     };
+
+    useEffect(() => {
+        axiosClient.get("/me").then(({ data }) => {
+            setCurrentUser(data);
+        });
+    }, []);
 
     return (
         <div>

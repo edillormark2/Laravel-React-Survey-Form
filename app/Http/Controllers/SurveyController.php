@@ -29,7 +29,7 @@ class SurveyController extends Controller
         return SurveyResource::collection(
             Survey::where("user_id", $user->id)
             ->orderBy("created_at","desc")
-            ->paginate(2)
+            ->paginate(4)
         );
     }
 
@@ -70,7 +70,7 @@ class SurveyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SurveyUpdateRequest $request, string $survey)
+    public function update(SurveyUpdateRequest $request, Survey $survey)
     {
         $data = $request->validated();
 

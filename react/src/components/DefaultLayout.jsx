@@ -3,6 +3,7 @@ import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
+import Toast from "./Toast";
 
 export default function DefaultLayout() {
     const { currentUser, userToken, setCurrentUser, setUserToken } =
@@ -75,6 +76,8 @@ export default function DefaultLayout() {
             <div className="p-10">
                 <Outlet />
             </div>
+
+            <Toast />
         </div>
     );
 }

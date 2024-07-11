@@ -39,55 +39,57 @@ export default function PaginationLinks({ meta, onPageClick }) {
                     </p>
                 </div>
                 <div>
-                    <nav
-                        aria-label="Pagination"
-                        className="isolate inline-flex space-x-1 rounded-md shadow-sm"
-                    >
-                        {meta.links &&
-                            meta.links.map((link, ind) => (
-                                <a
-                                    href="#"
-                                    onClick={(ev) => onClick(ev, link)}
-                                    key={ind}
-                                    aria-current="page"
-                                    className={
-                                        "relative z-10 inline-flex items-center py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-lg hover:opacity-90 m-1 " +
-                                        (link.label.includes("Previous") ||
-                                        link.label.includes("Next")
-                                            ? "px-2 bg-gray-200 rounded-full"
-                                            : "px-4 ") +
-                                        (ind === 0 ? "rounded-l-md " : "") +
-                                        (ind === meta.links.length - 1
-                                            ? "rounded-r-md "
-                                            : "") +
-                                        (link.active
-                                            ? "bg-indigo-600 text-white"
-                                            : "text-gray-500 hover:bg-gray-100")
-                                    }
-                                >
-                                    {link.label.includes("Previous") && (
-                                        <ChevronLeftIcon
-                                            className="h-5 w-5"
-                                            aria-hidden="true"
-                                        />
-                                    )}
-                                    {link.label.includes("Next") && (
-                                        <ChevronRightIcon
-                                            className="h-5 w-5"
-                                            aria-hidden="true"
-                                        />
-                                    )}
-                                    {!link.label.includes("Previous") &&
-                                        !link.label.includes("Next") && (
-                                            <span
-                                                dangerouslySetInnerHTML={{
-                                                    __html: link.label,
-                                                }}
+                    {meta.total > meta.per_page && (
+                        <nav
+                            aria-label="Pagination"
+                            className="isolate inline-flex space-x-1 rounded-md shadow-sm"
+                        >
+                            {meta.links &&
+                                meta.links.map((link, ind) => (
+                                    <a
+                                        href="#"
+                                        onClick={(ev) => onClick(ev, link)}
+                                        key={ind}
+                                        aria-current="page"
+                                        className={
+                                            "relative z-10 inline-flex items-center py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-lg hover:opacity-90 m-1 " +
+                                            (link.label.includes("Previous") ||
+                                            link.label.includes("Next")
+                                                ? "px-2 bg-gray-200 rounded-full"
+                                                : "px-4 ") +
+                                            (ind === 0 ? "rounded-l-md " : "") +
+                                            (ind === meta.links.length - 1
+                                                ? "rounded-r-md "
+                                                : "") +
+                                            (link.active
+                                                ? "bg-indigo-600 text-white"
+                                                : "text-gray-500 hover:bg-gray-100")
+                                        }
+                                    >
+                                        {link.label.includes("Previous") && (
+                                            <ChevronLeftIcon
+                                                className="h-5 w-5"
+                                                aria-hidden="true"
                                             />
                                         )}
-                                </a>
-                            ))}
-                    </nav>
+                                        {link.label.includes("Next") && (
+                                            <ChevronRightIcon
+                                                className="h-5 w-5"
+                                                aria-hidden="true"
+                                            />
+                                        )}
+                                        {!link.label.includes("Previous") &&
+                                            !link.label.includes("Next") && (
+                                                <span
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: link.label,
+                                                    }}
+                                                />
+                                            )}
+                                    </a>
+                                ))}
+                        </nav>
+                    )}
                 </div>
             </div>
         </div>

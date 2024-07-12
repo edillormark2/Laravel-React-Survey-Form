@@ -58,9 +58,9 @@ export default function SurveyView() {
             console.log(res);
             navigate("/surveys");
             if (id) {
-                showToast('The survey was updated');
+                showToast("The survey was updated");
             } else {
-                showToast('The survey was created');
+                showToast("The survey was created");
             }
         }).catch((err) => {
             if (err && err.response) {
@@ -69,6 +69,8 @@ export default function SurveyView() {
             console.log(err, err.response);
         });
     };
+
+    const onDelete = () => {};
 
     function onQuestionsUpdate(questions) {
         setSurvey({ ...survey, questions });
@@ -86,13 +88,29 @@ export default function SurveyView() {
 
     return (
         <div>
-            <div className="py-4 font-semibold text-2xl">
-                {!id ? "Create new Survey" : "Update Survey"}
+            <div className="flex justify-between">
+                <div className="py-4 font-semibold text-2xl">
+                    {!id ? "Create new Survey" : "Update Survey"}
+                </div>
+                <div className="flex items-center gap-2">
+                    <TButton
+                        color="green"
+                        href={`/survey/public/${survey.slug}`}
+                    >
+                        <LinkIcon className="h-5 w-4 mr-2" />
+                        Public Link
+                    </TButton>
+                    <TButton color="red" onClick={onDelete}>
+                        <TrashIcon className="h-5 w-4 mr-2" />
+                        Delete
+                    </TButton>
+                </div>
             </div>
+
             {loading && <div className="text-center text-lg">Loading...</div>}
             {!loading && (
                 <form action="#" method="POST" onSubmit={onSubmit}>
-                    <div className="shadow sm:overflow-hidden sm:rounded-md">
+                    <div className="shadow-lg sm:overflow-hidden sm:rounded-md">
                         <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
                             {error && (
                                 <div className="bg-red-100 text-red-500 p-3 rounded-md">

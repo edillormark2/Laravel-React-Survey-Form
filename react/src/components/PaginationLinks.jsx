@@ -10,7 +10,7 @@ export default function PaginationLinks({ meta, onPageClick }) {
     }
 
     return (
-        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow-md mt-8">
+        <div className="flex items-center justify-between border border-gray-200 bg-white px-4 py-3 sm:px-6 mt-8 rounded-lg">
             <div className="flex flex-1 justify-between sm:hidden">
                 <a
                     href="#"

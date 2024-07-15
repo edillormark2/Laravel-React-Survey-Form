@@ -8,11 +8,11 @@ import TButton from "./core/TButton";
 
 export default function SurveyListItem({ survey, onDeleteClick }) {
     return (
-        <div className="flex flex-col py-4 px-6 drop-shadow-md bg-white hover:bg-gray-50 h-[470px]">
+        <div className="flex flex-col p-4 bg-white border border-gray-200  h-[490px] rounded-lg ">
             <img
                 src={survey.image_url}
                 alt={survey.title}
-                className="w-full h-48 object-cover rounded-md"
+                className="w-full h-64 object-cover rounded-md"
             />
             <h4 className="mt-4 text-lg font-bold">{survey.title}</h4>
             <div
@@ -26,7 +26,7 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
                     Edit
                 </TButton>
                 <div className="flex items-center">
-                    <TButton href={`/view/survey/${survey.slug}`} circle link>
+                    <TButton href={`/survey/public/${survey.slug}`} circle link>
                         <ArrowTopRightOnSquareIcon className="w-5 h-5" />
                     </TButton>
 

@@ -5,6 +5,7 @@ import axiosClient from "../axios.js";
 import { useNavigate, useParams } from "react-router-dom";
 import SurveyQuestions from "../components/SurveyQuestions.jsx";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
+import Loader from "../components/Loader.jsx";
 
 export default function SurveyView() {
     const { showToast } = useStateContext();
@@ -107,7 +108,7 @@ export default function SurveyView() {
                 </div>
             </div>
 
-            {loading && <div className="text-center text-lg">Loading...</div>}
+            {loading && <Loader />}
             {!loading && (
                 <form action="#" method="POST" onSubmit={onSubmit}>
                     <div className="shadow-lg sm:overflow-hidden sm:rounded-md">

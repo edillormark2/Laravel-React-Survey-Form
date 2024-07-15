@@ -46,25 +46,31 @@ export default function TButton({
             case "indigo":
                 classes = [
                     ...classes,
-                    "bg-indigo-600",
-                    "hover:bg-indigo-700",
+                    "bg-blue-500",
+                    "hover:bg-blue-600",
                     "focus:ring-indigo-500",
                 ];
                 break;
             case "red":
                 classes = [
                     ...classes,
-                    "bg-red-600",
-                    "hover:bg-red-700",
-                    "focus:ring-red-500",
+                    "bg-red-50",
+                    "text-red-400",
+                    "border-1",
+                    "border-red-300",
+                    "hover:bg-red-500",
+                    "hover:text-white",
                 ];
                 break;
             case "green":
                 classes = [
                     ...classes,
-                    "bg-emerald-500",
-                    "hover:bg-emerald-600",
-                    "focus:ring-emerald-400",
+                    "bg-emerald-50",
+                    "text-emerald-400",
+                    "border-1",
+                    "border-emerald-300",
+                    "hover:bg-emerald-400",
+                    "hover:text-white",
                 ];
                 break;
         }

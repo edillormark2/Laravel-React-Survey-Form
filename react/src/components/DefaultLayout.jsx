@@ -1,17 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
 import Toast from "./Toast";
+import UserProfilePopup from "./UserProfilePopup";
+import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 
 export default function DefaultLayout() {
     const { currentUser, userToken, setCurrentUser, setUserToken } =
         useStateContext();
+    const [isUserProfilePopupOpen, setIsUserProfilePopupOpen] = useState(false);
+    const [anchor, setAnchor] = useState(null);
+    const [placement, setPlacement] = useState("bottom-end");
 
-    if (!userToken) {
-        return <Navigate to="login" />;
-    }
+    useEffect(() => {
+        if (!userToken) {
+            return;
+        }
+
+        axiosClient.get("/me").then(({ data }) => {
+            setCurrentUser(data);
+        });
+    }, [userToken, setCurrentUser]);
 
     const onLogout = (ev) => {
         ev.preventDefault();
@@ -21,15 +32,40 @@ export default function DefaultLayout() {
         });
     };
 
+    const toggleUserProfilePopup = (event) => {
+        setIsUserProfilePopupOpen((prev) => !prev);
+        setAnchor(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setIsUserProfilePopupOpen(false);
+    };
+
     useEffect(() => {
-        axiosClient.get("/me").then(({ data }) => {
-            setCurrentUser(data);
-        });
-    }, []);
+        const handleOutsideClick = (event) => {
+            if (
+                anchor &&
+                !anchor.contains(event.target) &&
+                !event.target.closest(".action-popup")
+            ) {
+                setIsUserProfilePopupOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleOutsideClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [anchor]);
+
+    if (!userToken) {
+        return <Navigate to="login" />;
+    }
 
     return (
         <div>
-            <div className="flex justify-between p-4 drop-shadow-lg bg-white">
+            <div className="flex justify-between p-4 bg-white">
                 <div className="flex gap-4">
                     <NavLink
                         to="/"
@@ -62,22 +98,32 @@ export default function DefaultLayout() {
                     </p>
                     <FaUserCircle
                         size={34}
-                        className="text-gray-300 self-center"
+                        className="text-gray-300 self-center cursor-pointer"
+                        onClick={(event) => toggleUserProfilePopup(event)}
                     />
-                    <div
-                        onClick={onLogout}
-                        className="py-1 px-2 self-center text-sm cursor-pointer hover:bg-red-500 text-center bg-red-400 rounded-md text-white"
-                    >
-                        Logout
-                    </div>
                 </div>
             </div>
 
-            <div className="p-10">
+            <div className="p-10 bg-gray-50 min-h-screen w-full">
                 <Outlet />
             </div>
 
             <Toast />
+
+            {isUserProfilePopupOpen && (
+                <BasePopup
+                    id="simple-popper"
+                    open={isUserProfilePopupOpen}
+                    anchor={anchor}
+                    placement={placement}
+                    offset={4}
+                    onClose={handleClose}
+                >
+                    <div className="action-popup">
+                        <UserProfilePopup onLogout={onLogout} />
+                    </div>
+                </BasePopup>
+            )}
         </div>
     );
 }

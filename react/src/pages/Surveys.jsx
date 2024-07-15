@@ -5,6 +5,7 @@ import TButton from "../components/core/TButton";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import axiosClient from "../axios";
 import PaginationLinks from "../components/PaginationLinks";
+import Loader from "../components/Loader";
 
 export default function Surveys() {
     const { showToast } = useStateContext();
@@ -16,7 +17,7 @@ export default function Surveys() {
         if (window.confirm("Are you sure you want to delete this survey?")) {
             axiosClient.delete(`/survey/${id}`).then(() => {
                 getSurveys();
-                showToast('The survey was deleted');
+                showToast("The survey was deleted");
             });
         }
     };
@@ -48,7 +49,7 @@ export default function Surveys() {
                 </TButton>
             </div>
 
-            {loading && <div className="text-center text-lg">Loading...</div>}
+            {loading && <Loader />}
 
             {!loading && (
                 <div>
@@ -57,7 +58,7 @@ export default function Surveys() {
                             You don't have surveys created
                         </div>
                     )}
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                         {surveys.map((survey) => (
                             <SurveyListItem
                                 survey={survey}

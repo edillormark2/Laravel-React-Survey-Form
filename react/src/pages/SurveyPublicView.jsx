@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosClient from "../axios";
 import PublicQuestionView from "../components/PublicQuestionView";
+import Loader from "../components/Loader";
 
 export default function SurveyPublicView() {
     const answers = {};
@@ -9,11 +10,10 @@ export default function SurveyPublicView() {
     const [survey, setSurvey] = useState({
         questions: [],
     });
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const { slug } = useParams();
 
     useEffect(() => {
-        setLoading(true);
         axiosClient
             .get(`survey/get-by-slug/${slug}`)
             .then(({ data }) => {
@@ -41,25 +41,33 @@ export default function SurveyPublicView() {
             });
     }
 
+    if (loading) {
+        return <Loader />;
+    }
+
     return (
-        <div>
-            {loading && <div className="flex justify-center">Loading...</div>}
-            {!loading && (
-                <form
-                    onSubmit={(ev) => onSubmit(ev)}
-                    className="flex justify-center w-full mt-10 my-20 m-4"
-                >
+        <div className="bg-gray-50 min-h-screen w-full relative">
+            <div className="py-8 w-11/12 md:w-3/4 xl:w-1/2 mx-auto">
+                <form onSubmit={(ev) => onSubmit(ev)}>
                     <div>
-                        <div className="grid grid-cols-6">
-                            <div className="mr-4">
-                                <img src={survey.image_url} alt="" />
+                        <div className="bg-white p-4 flex flex-col md:flex-row rounded-lg border border-gray-200 mb-4">
+                            <div className="mr-4 w-full md:w-1/2">
+                                <img
+                                    src={survey.image_url}
+                                    className="w-full h-80 object-cover rounded-md"
+                                    alt={survey.title}
+                                />
                             </div>
-                            <div className="col-span-5">
-                                <h1 className="text-3xl mb-3">
+                            <div>
+                                <h1 className="text-4xl my-3 font-semibold">
                                     {survey.title}
                                 </h1>
-                                <p className="text-gray-500 text-sm mb-3">
-                                    Expire Date:{survey.expire_date}
+                                <p className="text-gray-500 text-sm mb-1">
+                                    Status:{" "}
+                                    {survey.status ? "Active" : "Closed"}
+                                </p>
+                                <p className="text-gray-500 text-sm mb-1">
+                                    Expire Date: {survey.expire_date}
                                 </p>
                                 <p className="text-gray-500 text-sm mb-3">
                                     {survey.description}
@@ -68,7 +76,7 @@ export default function SurveyPublicView() {
                         </div>
 
                         {surveyFinished && (
-                            <div className="py-8 px-6 bg-emerald-500 text-white w-[600px] mx-auto">
+                            <div className="py-8 px-6 bg-green-50 text-green-500 border border-green-300 w-full rounded-lg mx-auto ">
                                 Thank you for participating in the survey!
                             </div>
                         )}
@@ -88,12 +96,17 @@ export default function SurveyPublicView() {
                                         )
                                     )}
                                 </div>
-                                <button type="submit"> Submit</button>
+                                <button
+                                    className="bg-blue-500 text-white font-semibold rounded-md py-2 px-3 hover:opacity-70"
+                                    type="submit"
+                                >
+                                    Submit
+                                </button>
                             </>
                         )}
                     </div>
                 </form>
-            )}
+            </div>
         </div>
     );
 }

@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum QuestionTypeEnum: string
 {
-    case Text = 'text';
-    case Textarea = 'textarea';
-    case Select = 'select';
-    case Radio = 'radio';
-    case Checkbox = 'checkbox';
+    case Text = 'short answer';
+    case Textarea = 'paragraph';
+    case Select = 'dropdown';
+    case Radio = 'multiple choice';
+    case Checkbox = 'checkboxes';
 }

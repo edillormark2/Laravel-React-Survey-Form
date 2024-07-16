@@ -10,7 +10,7 @@ export default function SurveyQuestions({ questions, onQuestionsUpdate }) {
         index = index !== undefined ? index : myQuestions.length;
         myQuestions.splice(index, 0, {
             id: uuidv4(),
-            type: "text",
+            type: "short answer",
             question: "",
             description: "",
             data: {},
@@ -43,11 +43,11 @@ export default function SurveyQuestions({ questions, onQuestionsUpdate }) {
 
     return (
         <>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-4">
                 <h3 className="text-2xl font-bold">Questions</h3>
                 <button
                     type="button"
-                    className="flex items-center text-sm py-1 px-4 rounded-sm text-white  bg-gray-600 hover:bg-gray-700"
+                    className="flex items-center text-sm py-1 px-4 rounded-md text-blue-500  bg-blue-50 border border-blue-400 hover:bg-blue-100"
                     onClick={() => addQuestion()}
                 >
                     <PlusIcon className="w-4 mr-2" />

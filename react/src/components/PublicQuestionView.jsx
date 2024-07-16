@@ -26,7 +26,7 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                     </p>
                 </div>
                 <div className="mt-3">
-                    {question.type === "select" && (
+                    {question.type === "dropdown" && (
                         <div>
                             <select
                                 onChange={(ev) =>
@@ -46,7 +46,7 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                             </select>
                         </div>
                     )}
-                    {question.type === "radio" && (
+                    {question.type === "multiple choice" && (
                         <div>
                             {question.data.options.map((option, ind) => (
                                 <div
@@ -73,7 +73,7 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                             ))}
                         </div>
                     )}
-                    {question.type === "checkbox" && (
+                    {question.type === "checkboxes" && (
                         <div>
                             {question.data.options.map((option, ind) => (
                                 <div
@@ -98,18 +98,18 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                             ))}
                         </div>
                     )}
-                    {question.type === "Text" && (
+                    {question.type === "short answer" && (
                         <div>
                             <input
                                 type="text"
                                 onChange={(ev) =>
                                     answerChanged(ev.target.value)
                                 }
-                                className="form-control w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                                className="form-control w-full border-gray-300 rounded-md shadow-sm sm:text-sm p-2"
                             />
                         </div>
                     )}
-                    {question.type === "textarea" && (
+                    {question.type === "paragraph" && (
                         <div>
                             <textarea
                                 onChange={(ev) =>

@@ -135,8 +135,8 @@ export default function SurveyView() {
                     )}
                     <form action="#" method="POST" onSubmit={onSubmit}>
                         <div>
-                            <div className="space-y-6 bg-white p-4 rounded-lg border border-gray-200 w-full flex">
-                                <div className="w-1/2">
+                            <div className="space-y-6 bg-white p-4 rounded-lg border border-gray-200 w-full flex flex-col lg:flex-row">
+                                <div className="w-full lg:w-1/2">
                                     <div className="mt-1 flex items-center">
                                         {survey.image_url && (
                                             <img
@@ -164,7 +164,7 @@ export default function SurveyView() {
                                     </button>
                                 </div>
 
-                                <div className="w-full px-10">
+                                <div className="w-full px-2 lg:px-10">
                                     {/*Title*/}
                                     <div className="mb-4">
                                         <label
@@ -319,7 +319,7 @@ export default function SurveyView() {
                             </div>
 
                             {/*Questions */}
-                            <div className="p-4 bg-white my-4 rounded-lg border border-gray-200">
+                            <div>
                                 <SurveyQuestions
                                     questions={survey.questions}
                                     onQuestionsUpdate={onQuestionsUpdate}

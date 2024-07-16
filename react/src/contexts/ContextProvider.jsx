@@ -29,13 +29,13 @@ const tmpSurveys = [
         questions: [
             {
                 id: 15,
-                type: "text",
+                type: "short answer",
                 question: "From which country are you?",
                 description: null,
             },
             {
                 id: 16,
-                type: "checkbox",
+                type: "checkboxes",
                 question:
                     "Which language videos do you want to see on my channel?",
                 description:
@@ -67,7 +67,7 @@ const tmpSurveys = [
             },
             {
                 id: 17,
-                type: "select",
+                type: "dropdown",
                 question:
                     "Which PHP framework videos do you want to see on my channel?",
                 description:
@@ -95,7 +95,7 @@ const tmpSurveys = [
             },
             {
                 id: 18,
-                type: "radio",
+                type: "multiple choice",
                 question: "Which Laravel Framework do you love most?",
                 description:
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda cumque earum eos esse est ex facilis, iure laboriosam maiores neque nesciunt nulla placeat praesentium quae quos ratione, recusandae totam velit!",
@@ -122,7 +122,7 @@ const tmpSurveys = [
             },
             {
                 id: 19,
-                type: "checkbox",
+                type: "checkboxes",
                 question:
                     "What type of projects do you want to see on my channel built with Laravel?",
                 description:
@@ -150,7 +150,7 @@ const tmpSurveys = [
             },
             {
                 id: 22,
-                type: "textarea",
+                type: "paragraph",
                 question: "What do you think about TheCodeholic channel?",
                 description:
                     "Write your honest opinion. Everything is anonymous.",
@@ -158,7 +158,7 @@ const tmpSurveys = [
             },
             {
                 id: 23,
-                type: "text",
+                type: "short answer",
                 question: "Which channel is your favorite one?",
                 description: null,
                 data: [],
@@ -202,12 +202,13 @@ export const ContextProvider = ({ children }) => {
     );
     const [surveys, setSurveys] = useState(tmpSurveys);
     const [questionTypes] = useState([
-        "text",
-        "select",
-        "radio",
-        "checkbox",
-        "textarea",
+        "short answer",
+        "dropdown",
+        "multiple choice",
+        "checkboxes",
+        "paragraph",
     ]);
+
     const [toast, setToast] = useState({ message: "", show: false });
 
     const setUserToken = (token) => {

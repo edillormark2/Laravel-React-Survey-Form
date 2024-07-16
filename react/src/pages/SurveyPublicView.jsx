@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axiosClient from "../axios";
 import PublicQuestionView from "../components/PublicQuestionView";
 import Loader from "../components/Loader";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 export default function SurveyPublicView() {
     const answers = {};
@@ -11,6 +12,7 @@ export default function SurveyPublicView() {
         questions: [],
     });
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const { slug } = useParams();
 
     useEffect(() => {
@@ -20,7 +22,10 @@ export default function SurveyPublicView() {
                 setSurvey(data.data);
                 setLoading(false);
             })
-            .catch(() => {
+            .catch((error) => {
+                if (error.response && error.response.status === 404) {
+                    setError(error.response.data.message);
+                }
                 setLoading(false);
             });
     }, [slug]);
@@ -45,6 +50,21 @@ export default function SurveyPublicView() {
         return <Loader />;
     }
 
+    if (error) {
+        return (
+            <div className="bg-gray-50 min-h-screen w-full ">
+                <div className="p-10 flex items-center flex-col">
+                    <InformationCircleIcon className="w-40 h-40 p-6 text-gray-400  mt-16" />
+                    <div className="bg-blue-50 border border-blue-500 p-6 rounded-lg w-full md:w-3/4 max-w-[40rem]">
+                        <h1 className="text-base font-semibold text-blue-500">
+                            {error}
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-gray-50 min-h-screen w-full relative">
             <div className="py-8 w-11/12 md:w-3/4 xl:w-1/2 mx-auto">
@@ -58,7 +78,7 @@ export default function SurveyPublicView() {
                                     alt={survey.title}
                                 />
                             </div>
-                            <div className="w-1/2">
+                            <div className="w-full lg:w-1/2">
                                 <h1 className="text-4xl my-3 font-semibold">
                                     {survey.title}
                                 </h1>

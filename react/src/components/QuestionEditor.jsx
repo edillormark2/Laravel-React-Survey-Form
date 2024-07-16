@@ -61,7 +61,7 @@ export default function QuestionEditor({
 
     return (
         <>
-            <div>
+            <div className="bg-white rounded-lg border border-gray-200 p-4 my-2">
                 <div className="flex justify-between mb-3">
                     <h4>
                         {index + 1}. {model.question}
@@ -133,25 +133,6 @@ export default function QuestionEditor({
                     </div>
                 </div>
 
-                {/* Description */}
-                <div className="mb-3">
-                    <label
-                        htmlFor="questionDescription"
-                        className="block text-sm font-medium text-gray-700"
-                    >
-                        Description
-                    </label>
-                    <textarea
-                        name="questionDescription"
-                        id="questionDescription"
-                        value={model.description || ""}
-                        onChange={(ev) =>
-                            setModel({ ...model, description: ev.target.value })
-                        }
-                        className="mt-1 block w-full rounded-md py-2 px-3 form-control sm:text-sm"
-                    ></textarea>
-                </div>
-
                 <div>
                     {shouldHaveOptions() && (
                         <div>
@@ -203,7 +184,6 @@ export default function QuestionEditor({
                     )}
                 </div>
             </div>
-            <hr />
         </>
     );
 }

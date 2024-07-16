@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import {
     ArrowTopRightOnSquareIcon,
     EyeIcon,
     PencilIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
 import TButton from "./core/TButton";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
@@ -14,18 +14,41 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
     const [openSharePopup, setOpenSharePopup] = useState(false);
     const [shareLink, setShareLink] = useState("");
 
+    const isSurveyExpired = (expireDate) => {
+        const today = new Date().setHours(0, 0, 0, 0);
+        const expiration = new Date(expireDate).setHours(0, 0, 0, 0);
+        return expiration < today;
+    };
+
     const handleOpenShare = () => {
         setShareLink(`${window.location.origin}/survey/public/${survey.slug}`);
         setOpenSharePopup(true);
     };
 
     return (
-        <div className="flex flex-col p-4 bg-white border border-gray-200 h-[485px] rounded-lg hover:border-blue-500">
+        <div className="relative flex flex-col p-4 bg-white border border-gray-200 h-[485px] rounded-lg hover:border-blue-500">
             <img
                 src={survey.image_url}
                 alt={survey.title}
-                className="w-full h-64 object-cover rounded-md"
+                className=" w-full h-64 object-cover rounded-md"
             />
+            <div
+                className={`absolute top-6 right-6 text-xs py-1 px-2 rounded-full 
+        ${
+            isSurveyExpired(survey.expire_date)
+                ? "bg-yellow-50 text-yellow-500 border border-yellow-300"
+                : survey.status
+                ? "bg-green-400 bg-opacity-15 text-green-500 border border-green-300"
+                : "bg-red-400 bg-opacity-15 text-red-500 border border-red-300"
+        }`}
+            >
+                {isSurveyExpired(survey.expire_date)
+                    ? "Expired"
+                    : survey.status
+                    ? "Active"
+                    : "Closed"}
+            </div>
+
             <h4 className="mt-4 text-lg font-bold">{survey.title}</h4>
             <div className="overflow-hidden flex-1 truncate-ellipsis relative">
                 <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent pointer-events-none h-full max-h-32 overflow-hidden text-gray-500">

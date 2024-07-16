@@ -246,18 +246,18 @@ class SurveyController extends Controller
     public function getBySlug(Survey $survey)
     {
         if (!$survey->status) {
-            return response("", 404);
+            return response()->json(['message' => "Sorry, this {$survey->title} is already closed. Try contacting the owner of the form if you think this is a mistake"], 404);
         }
-
+    
         $currentDate = new \DateTime();
         $expireDate = new \DateTime($survey->expire_date);
         if ($currentDate > $expireDate) {
-            return response("",404);
+            return response()->json(['message' => "The form {$survey->title} is no longer accepting responses. Try contacting the owner of the form if you think this is a mistake."], 404);
+        }
+    
+        return new SurveyResource($survey);
     }
-
-    return new SurveyResource($survey);
-
-    }
+    
 
     public function storeAnswer(StoreSurveyAnswerRequest $request, Survey $survey)
     {

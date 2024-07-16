@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SurveyQuestions from "../components/SurveyQuestions.jsx";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 import Loader from "../components/Loader.jsx";
+import Breadcrumbs from "../components/Breadcrumbs.jsx";
 
 export default function SurveyView() {
     const { showToast } = useStateContext();
@@ -85,27 +86,36 @@ export default function SurveyView() {
                 setLoading(false);
             });
         }
-    }, []);
+    }, [id]);
+
+    const breadcrumbLinks = [
+        { to: "/dashboard", label: "Home" },
+        { to: "/surveys", label: "Survey List" },
+        { to: "", label: id ? "Edit Survey" : "Create new" },
+    ];
 
     return (
         <div>
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row justify-between">
                 <div className="py-4 font-semibold text-2xl">
-                    {!id ? "Create new Survey" : "Update Survey"}
+                    {!id ? "Create new Survey" : "Edit Survey"}
+                    <Breadcrumbs links={breadcrumbLinks} />
                 </div>
-                <div className="flex items-center gap-2">
-                    <TButton
-                        color="green"
-                        href={`/survey/public/${survey.slug}`}
-                    >
-                        <LinkIcon className="h-5 w-4 mr-2" />
-                        Public Link
-                    </TButton>
-                    <TButton color="red" onClick={onDelete}>
-                        <TrashIcon className="h-5 w-4 mr-2" />
-                        Delete
-                    </TButton>
-                </div>
+                {id && (
+                    <div className="flex items-center gap-2">
+                        <TButton
+                            color="green"
+                            href={`/survey/public/${survey.slug}`}
+                        >
+                            <LinkIcon className="h-5 w-4 mr-2" />
+                            Public Link
+                        </TButton>
+                        <TButton color="red" onClick={onDelete}>
+                            <TrashIcon className="h-5 w-4 mr-2" />
+                            Delete
+                        </TButton>
+                    </div>
+                )}
             </div>
 
             {loading && <Loader />}
@@ -137,11 +147,11 @@ export default function SurveyView() {
                                     )}
                                     <button
                                         type="button"
-                                        className="relative  ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer "
+                                        className="relative ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer"
                                     >
                                         <input
                                             type="file"
-                                            className="cursor-pointer absolute left-0 top-0 right-0 bottom-0 opacity-0 "
+                                            className="cursor-pointer absolute left-0 top-0 right-0 bottom-0 opacity-0"
                                             onChange={onImageChoose}
                                         />
                                         Change

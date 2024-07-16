@@ -64,7 +64,7 @@ export default function DefaultLayout() {
     }
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col">
             <div className="flex justify-between p-4 bg-white">
                 <div className="flex gap-4">
                     <NavLink
@@ -93,7 +93,7 @@ export default function DefaultLayout() {
                     </NavLink>
                 </div>
                 <div className="flex gap-4">
-                    <p className="text-center self-center font-semibold text-slate-500">
+                    <p className="text-center self-center font-semibold text-slate-500 hidden md:block">
                         {currentUser.name}
                     </p>
                     <FaUserCircle
@@ -104,7 +104,7 @@ export default function DefaultLayout() {
                 </div>
             </div>
 
-            <div className="p-10 bg-gray-50 min-h-screen w-full">
+            <div className="flex-grow p-4 md:p-10 bg-gray-50">
                 <Outlet />
             </div>
 

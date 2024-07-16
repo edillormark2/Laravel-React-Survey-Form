@@ -54,20 +54,20 @@ export default function TButton({
             case "red":
                 classes = [
                     ...classes,
-                    "bg-red-50",
-                    "text-red-400",
+                    "bg-red-500",
+                    "text-red-500",
                     "border-1",
                     "border-red-300",
-                    "hover:bg-red-500",
+                    "hover:bg-red-400",
                     "hover:text-white",
                 ];
                 break;
             case "green":
                 classes = [
                     ...classes,
-                    "bg-emerald-50",
+                    "bg-emerald-500",
                     "text-emerald-400",
-                    "border-1",
+                    "text-center",
                     "border-emerald-300",
                     "hover:bg-emerald-400",
                     "hover:text-white",

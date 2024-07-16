@@ -58,7 +58,7 @@ export default function SurveyPublicView() {
                                     alt={survey.title}
                                 />
                             </div>
-                            <div>
+                            <div className="w-1/2">
                                 <h1 className="text-4xl my-3 font-semibold">
                                     {survey.title}
                                 </h1>
@@ -69,7 +69,7 @@ export default function SurveyPublicView() {
                                 <p className="text-gray-500 text-sm mb-1">
                                     Expire Date: {survey.expire_date}
                                 </p>
-                                <p className="text-gray-500 text-sm mb-3">
+                                <p className="text-gray-500 text-sm mb-3 max-h-48 overflow-y-auto">
                                     {survey.description}
                                 </p>
                             </div>

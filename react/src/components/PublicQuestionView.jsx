@@ -21,7 +21,7 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                     <legend className="text-base font-semibold text-gray-900">
                         {index + 1}. {question.question}
                     </legend>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-sm ">
                         {question.description}
                     </p>
                 </div>
@@ -32,7 +32,7 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                                 onChange={(ev) =>
                                     answerChanged(ev.target.value)
                                 }
-                                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none form-control sm:text-sm"
+                                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none form-control sm:text-sm cursor-pointer"
                             >
                                 <option value="">Please Select</option>
                                 {question.data.options.map((option) => (
@@ -61,7 +61,7 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                                             answerChanged(ev.target.value)
                                         }
                                         type="radio"
-                                        className="h-5 w-5 text-gray-600 border-gray-300 my-1"
+                                        className="h-5 w-5 text-gray-600 border-gray-300 my-1 cursor-pointer"
                                     />
                                     <label
                                         htmlFor={option.uuid}
@@ -86,7 +86,7 @@ export default function PublicQuestionView({ question, index, answerChanged }) {
                                             onCheckboxChanged(option, ev)
                                         }
                                         type="checkbox"
-                                        className="h-4 w-5 text-gray-600 border-gray-300 rounded my-1 "
+                                        className="h-4 w-5 text-gray-600 border-gray-300 rounded my-1  cursor-pointer"
                                     />
                                     <label
                                         htmlFor={option.uuid}

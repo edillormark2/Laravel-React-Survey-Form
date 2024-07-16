@@ -52,3 +52,11 @@
         transform: translateY(0);
     }
 }
+
+.truncate-ellipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4; /* Change the number to set the max number of lines */
+}

@@ -28,7 +28,7 @@ export default function QuestionEditor({
     questionChange,
 }) {
     const [model, setModel] = useState({ ...question });
-    const { questionTypes } = useStateContext(); // Ensure this matches PHP enum values
+    const { questionTypes } = useStateContext(); 
 
     useEffect(() => {
         questionChange(model);

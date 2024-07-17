@@ -9,12 +9,11 @@ export default function DashboardCard({
     return (
         <div
             className={
-                "bg-white shadow-md p-3 text-center flex flex-col animate-fade-in-down " +
-                className
+                "bg-white rounded-lg p-3 animate-fade-in-down " + className
             }
             style={style}
         >
-            {title && <h3 className="text-2xl font-semibold">{title}</h3>}
+            {title && <h3>{title}</h3>}
             {children}
         </div>
     );

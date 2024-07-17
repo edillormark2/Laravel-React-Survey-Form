@@ -64,8 +64,8 @@ export default function DefaultLayout() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col">
-            <div className="flex justify-between p-4 bg-white">
+        <div className="min-h-screen flex flex-col ">
+            <div className="flex justify-between items-center py-4 bg-white px-8 border-b-1 border-gray-200">
                 <div className="flex gap-4">
                     <NavLink
                         to="/"
@@ -73,7 +73,7 @@ export default function DefaultLayout() {
                             `p-2 rounded-md cursor-pointer ${
                                 isActive
                                     ? "bg-primary text-white"
-                                    : "hover:bg-gray-200"
+                                    : "hover:bg-gray-100"
                             }`
                         }
                     >
@@ -85,7 +85,7 @@ export default function DefaultLayout() {
                             `p-2 rounded-md cursor-pointer ${
                                 isActive
                                     ? "bg-primary text-white"
-                                    : "hover:bg-gray-200"
+                                    : "hover:bg-gray-100"
                             }`
                         }
                     >
@@ -93,18 +93,18 @@ export default function DefaultLayout() {
                     </NavLink>
                 </div>
                 <div className="flex gap-4">
-                    <p className="text-center self-center font-semibold text-slate-500 hidden md:block">
+                    <p className="text-center self-center font-semibold text-slate-500 hidden md:block ">
                         {currentUser.name}
                     </p>
                     <FaUserCircle
-                        size={34}
-                        className="text-gray-300 self-center cursor-pointer"
+                        size={48}
+                        className="text-gray-300 self-center cursor-pointer hover:bg-gray-100 p-2 rounded-full"
                         onClick={(event) => toggleUserProfilePopup(event)}
                     />
                 </div>
             </div>
 
-            <div className="flex-grow p-4 md:p-10 bg-gray-50">
+            <div className="flex-grow p-4 md:p-10 bg-gray-100">
                 <Outlet />
             </div>
 

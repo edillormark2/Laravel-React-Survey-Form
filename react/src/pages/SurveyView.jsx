@@ -1,26 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { LinkIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+    ArrowTopRightOnSquareIcon,
+    EyeIcon,
+    LinkIcon,
+    PhotoIcon,
+    TrashIcon,
+} from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
 import axiosClient from "../axios.js";
 import { useNavigate, useParams } from "react-router-dom";
 import SurveyQuestions from "../components/SurveyQuestions.jsx";
 import { useStateContext } from "../contexts/ContextProvider.jsx";
 import Loader from "../components/Loader.jsx";
-import Breadcrumbs from "../components/Breadcrumbs.jsx";
+import ShareSurveyPopup from "../components/ShareSurveyPopup.jsx";
+import Tooltip from "@mui/material/Tooltip";
+import Fade from "@mui/material/Fade";
+import { FaArrowLeft } from "react-icons/fa6";
 
 export default function SurveyView() {
     const { showToast } = useStateContext();
     const navigate = useNavigate();
     const { id } = useParams();
+    const [openSharePopup, setOpenSharePopup] = useState(false);
+    const [shareLink, setShareLink] = useState("");
 
     const [survey, setSurvey] = useState({
         title: "",
         slug: "",
-        status: true, // Default value to be checked
+        status: true,
         description: "",
         image: null,
         image_url: null,
-        expire_date: new Date().toLocaleDateString("en-CA"), // Default value to today's date in YYYY-MM-DD format
+        expire_date: new Date().toLocaleDateString("en-CA"),
         questions: [],
     });
 
@@ -73,7 +84,15 @@ export default function SurveyView() {
         });
     };
 
-    const onDelete = () => {};
+    const onDeleteClick = (id) => {
+        if (window.confirm("Are you sure you want to delete this survey?")) {
+            axiosClient.delete(`/survey/${id}`).then(() => {
+                setSurvey();
+                navigate("/surveys");
+                showToast("The survey was deleted");
+            });
+        }
+    };
 
     function onQuestionsUpdate(questions) {
         setSurvey({ ...survey, questions });
@@ -95,32 +114,76 @@ export default function SurveyView() {
         return expiration < today;
     };
 
-    const breadcrumbLinks = [
-        { to: "/dashboard", label: "Home" },
-        { to: "/surveys", label: "Survey List" },
-        { to: "", label: id ? "Edit Survey" : "Create new" },
-    ];
+    const handleOpenShare = () => {
+        setShareLink(`${window.location.origin}/survey/public/${survey.slug}`);
+        setOpenSharePopup(true);
+    };
+
+    function handleGoBack() {
+        navigate(-1);
+    }
 
     return (
         <div className="w-full min-h-screen">
-            <div className="flex flex-col md:flex-row justify-between mb-4">
-                <div className="py-4 font-semibold text-2xl">
-                    {!id ? "Create new Survey" : "Edit Survey"}
-                    <Breadcrumbs links={breadcrumbLinks} />
+            <div className="w-full lg:w-9/12 xl:w-8/12 mx-auto mb-4 text-2xl font-semibold ">
+                {!id ? "Create new Survey" : "Edit Survey"}
+            </div>
+            <div className="flex justify-between mb-4 bg-white rounded-lg px-4 w-full lg:9/12 xl:w-8/12 mx-auto ">
+                <div className="py-2">
+                    <Tooltip
+                        title="Go Back"
+                        placement="bottom"
+                        TransitionComponent={Fade}
+                    >
+                        <div
+                            className="rounded-full p-4 cursor-pointer hover:bg-gray-100"
+                            onClick={handleGoBack}
+                        >
+                            <FaArrowLeft className="text-gray-700" />
+                        </div>
+                    </Tooltip>
                 </div>
                 {id && (
                     <div className="flex items-center gap-2">
-                        <TButton
-                            color="green"
-                            href={`/survey/public/${survey.slug}`}
+                        <Tooltip
+                            title="Share"
+                            placement="bottom"
+                            TransitionComponent={Fade}
                         >
-                            <LinkIcon className="h-5 w-4 mr-2" />
-                            Public Link
-                        </TButton>
-                        <TButton color="red" onClick={onDelete}>
-                            <TrashIcon className="h-5 w-4 mr-2" />
-                            Delete
-                        </TButton>
+                            <button
+                                onClick={handleOpenShare}
+                                className="flex items-center rounded-full p-4 cursor-pointer hover:bg-gray-100"
+                            >
+                                <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-800" />
+                            </button>
+                        </Tooltip>
+                        <Tooltip
+                            title="Preview"
+                            placement="bottom"
+                            TransitionComponent={Fade}
+                        >
+                            <a
+                                href={`/survey/public/${survey.slug}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <button className="flex items-center rounded-full p-4 cursor-pointer hover:bg-gray-100">
+                                    <EyeIcon className="w-5 h-5 text-gray-800" />
+                                </button>
+                            </a>
+                        </Tooltip>
+                        <Tooltip
+                            title="Delete"
+                            placement="bottom"
+                            TransitionComponent={Fade}
+                        >
+                            <button
+                                onClick={(ev) => onDeleteClick(survey.id)}
+                                className="rounded-full p-4 cursor-pointer hover:bg-gray-100"
+                            >
+                                <TrashIcon className="w-5 h-5 text-gray-800 " />
+                            </button>
+                        </Tooltip>
                     </div>
                 )}
             </div>
@@ -330,6 +393,11 @@ export default function SurveyView() {
                             </div>
                         </div>
                     </form>
+                    <ShareSurveyPopup
+                        openSharePopup={openSharePopup}
+                        setOpenSharePopup={setOpenSharePopup}
+                        shareLink={shareLink}
+                    />
                 </div>
             )}
         </div>

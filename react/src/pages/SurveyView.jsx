@@ -124,7 +124,7 @@ export default function SurveyView() {
     }
 
     return (
-        <div className="w-full min-h-screen">
+        <div className="w-full min-h-screen ">
             <div className="w-full lg:w-9/12 xl:w-8/12 mx-auto mb-4 text-2xl font-semibold ">
                 {!id ? "Create new Survey" : "Edit Survey"}
             </div>

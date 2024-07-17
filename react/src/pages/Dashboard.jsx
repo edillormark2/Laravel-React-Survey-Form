@@ -5,6 +5,7 @@ import TButton from "../components/core/TButton.jsx";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Loader from "../components/Loader";
 import { Divider } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -29,7 +30,7 @@ export default function Dashboard() {
         <div>
             {loading && <Loader />}
             {!loading && (
-                <div className="flex w-full  xl:w-3/4 mx-auto gap-5 text-gray-700">
+                <div className="flex flex-col lg:flex-row w-full  xl:w-3/4 mx-auto gap-5 text-gray-700">
                     <div className="flex flex-col w-full lg:w-3/4">
                         {/*Card section */}
                         <div className="flex gap-4">
@@ -106,19 +107,20 @@ export default function Dashboard() {
                                             </div>
                                         </div>
                                         <Divider />
-                                        <div className="flex justify-between mt-2">
-                                            <TButton
+                                        <div className="flex justify-between mt-4">
+                                            <Link
                                                 to={`/surveys/${data.latestSurvey.id}`}
-                                                link
                                             >
-                                                <PencilIcon className="w-5 h-5 mr-2" />
-                                                Edit Survey
-                                            </TButton>
+                                                <button className="flex text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg">
+                                                    <PencilIcon className="w-5 h-5 mr-2" />
+                                                    Edit Survey
+                                                </button>
+                                            </Link>
 
-                                            <TButton link>
+                                            <button className="flex text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg">
                                                 <EyeIcon className="w-5 h-5 mr-2" />
-                                                View Answers
-                                            </TButton>
+                                                View Responses
+                                            </button>
                                         </div>
                                     </div>
                                 )}
@@ -143,20 +145,20 @@ export default function Dashboard() {
                                 <div className="text-left">
                                     {data.latestAnswers.map((answer) => (
                                         <div className="border-b-1 border-gray-200 py-2">
-                                        <a
-                                            href="#"
-                                            key={answer.id}
-                                            className="px-4 py-2 hover:bg-gray-50 rounded-lg flex justify-between "
-                                        >
-                                            <div className="font-semibold text-blue-400">
-                                                {answer.survey.title}
-                                            </div>
-                                            <div>
-                                                <p className="text-sm bg-gray-50 py-1 px-2 rounded-lg">
-                                                    {answer.end_date}
-                                                </p>
-                                            </div>
-                                        </a>
+                                            <a
+                                                href="#"
+                                                key={answer.id}
+                                                className="px-4 py-2 hover:bg-gray-50 rounded-lg flex justify-between "
+                                            >
+                                                <div className="font-semibold text-blue-400">
+                                                    {answer.survey.title}
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm bg-gray-50 py-1 px-2 rounded-lg">
+                                                        {answer.end_date}
+                                                    </p>
+                                                </div>
+                                            </a>
                                         </div>
                                     ))}
                                 </div>

@@ -26,7 +26,7 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
     };
 
     return (
-        <div className="relative flex flex-col p-4 bg-white border border-gray-200 h-[485px] rounded-lg hover:border-blue-500">
+        <div className="relative flex flex-col p-4 bg-white border border-gray-200 h-[485px] rounded-lg hover:border-blue-500 animate-fade-in-down ">
             <img
                 src={survey.image_url}
                 alt={survey.title}

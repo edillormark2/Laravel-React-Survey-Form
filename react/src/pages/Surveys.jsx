@@ -48,15 +48,15 @@ export default function Surveys() {
     ];
 
     return (
-        <div>
-            <div className="flex justify-between mb-8">
+        <div className="w-full  xl:w-11/12 mx-auto ">
+            <div className="flex justify-between mb-8 ">
                 <div className="py-4 items-center">
                     <p className=" font-semibold text-2xl">Survey List</p>
                     <Breadcrumbs links={breadcrumbLinks} />
                 </div>
                 <div className="items-center py-4 ">
                     <Link to="/surveys/create">
-                        <button className="flex p-2 bg-emerald-50 border border-emerald-300 text-emerald-500 rounded-lg hover:text-white hover:bg-emerald-300  " >
+                        <button className="flex p-2 bg-emerald-50 border border-emerald-300 text-emerald-500 rounded-lg hover:text-white hover:bg-emerald-300  ">
                             <PlusCircleIcon className="h-6 w-6 mr-0 md:mr-2" />
                             <p className="hidden md:block">Create new</p>
                         </button>

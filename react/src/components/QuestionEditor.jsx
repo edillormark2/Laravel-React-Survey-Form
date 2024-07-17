@@ -10,6 +10,15 @@ import { v4 as uuidv4 } from "uuid";
 import { Divider } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
+import Select from "react-select";
+import {
+    FaAlignJustify,
+    FaGripLines,
+    FaRegCheckSquare,
+    FaRegCircle,
+    FaSortDown,
+} from "react-icons/fa";
+import { HiBars2 } from "react-icons/hi2";
 
 export default function QuestionEditor({
     index = 0,
@@ -34,15 +43,12 @@ export default function QuestionEditor({
         return ["dropdown", "multiple choice", "checkboxes"].includes(type);
     }
 
-    function onTypeChange(ev) {
+    function onTypeChange(option) {
         const newModel = {
             ...model,
-            type: ev.target.value,
+            type: option.value,
         };
-        if (
-            !shouldHaveOptions(model.type) &&
-            shouldHaveOptions(ev.target.value)
-        ) {
+        if (!shouldHaveOptions(model.type) && shouldHaveOptions(option.value)) {
             if (!model.data.options) {
                 newModel.data = {
                     options: [{ uuid: uuidv4(), text: "" }],
@@ -67,10 +73,61 @@ export default function QuestionEditor({
         setModel({ ...model });
     }
 
+    const questionTypeOptions = questionTypes.map((type) => ({
+        value: type,
+        label: (
+            <div className="flex items-center cursor-pointer">
+                {getIcon(type)}
+                <span className="ml-2">{upperCaseFirst(type)}</span>
+            </div>
+        ),
+    }));
+
+    function getIcon(type) {
+        switch (type) {
+            case "short answer":
+                return <FaGripLines className="w-4 h-4" />;
+            case "paragraph":
+                return <FaAlignJustify className="w-4 h-4" />;
+            case "checkboxes":
+                return <FaRegCheckSquare className="w-4 h-4" />;
+            case "multiple choice":
+                return <FaRegCircle className="w-4 h-4" />;
+            case "dropdown":
+                return <FaSortDown className="w-4 h-4" />;
+            default:
+                return null;
+        }
+    }
+
+    const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            minHeight: "38px",
+            cursor: "pointer",
+        }),
+        valueContainer: (provided) => ({
+            ...provided,
+            padding: "0 6px",
+        }),
+        input: (provided) => ({
+            ...provided,
+            margin: "0px",
+            padding: "0px",
+        }),
+        indicatorSeparator: (provided) => ({
+            display: "none",
+        }),
+        indicatorsContainer: (provided) => ({
+            ...provided,
+            height: "38px",
+        }),
+    };
+
     return (
         <>
             <div className="bg-white rounded-lg border border-gray-200 p-4 my-4">
-                <div className="flex gap-3 justify-between mb-3 mt-2">
+                <div className="flex flex-col lg:flex-row gap-3 justify-between mb-3 mt-2">
                     {/* Question Text */}
                     <div className="flex w-full">
                         <p className="self-center mr-2">{index + 1}. </p>
@@ -86,32 +143,26 @@ export default function QuestionEditor({
                                     question: ev.target.value,
                                 })
                             }
-                            className="mt-1 block w-full rounded-md  px-3 form-control sm:text-sm"
+                            className="mt-1 block w-full rounded-md  py-2 px-3 form-control sm:text-sm"
                         />
                     </div>
 
                     {/* Question Type */}
-                    <div className="relative  min-w-[10rem]">
-                        <select
-                            id="questionType"
-                            name="questionType"
-                            value={model.type}
+                    <div className="relative min-w-[10rem] cursor-pointer w-full lg:w-1/3">
+                        <Select
+                            value={questionTypeOptions.find(
+                                (option) => option.value === model.type
+                            )}
                             onChange={onTypeChange}
-                            className="mt-1 block w-full rounded-md py-2 px-3 form-control sm:text-sm pr-10 cursor-pointer"
-                        >
-                            {questionTypes.map((type) => (
-                                <option value={type} key={type}>
-                                    {upperCaseFirst(type)}
-                                </option>
-                            ))}
-                        </select>
-                        <div className="absolute top-4 right-0 flex items-center pr-3 pointer-events-none self-center ">
-                            <ChevronDownIcon className="h-4 w-4 " />
-                        </div>
+                            options={questionTypeOptions}
+                            styles={customStyles}
+                            className="mt-1 block w-full rounded-md sm:text-sm cursor-pointer"
+                            isSearchable={false}
+                        />
                     </div>
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 mt-6">
                     {shouldHaveOptions() && (
                         <div>
                             {model.data.options.length === 0 && (
@@ -122,10 +173,30 @@ export default function QuestionEditor({
                             {model.data.options.length > 0 && (
                                 <div>
                                     {model.data.options.map((op, ind) => (
-                                        <div className="flex items-center mb-1">
-                                            <span className="w-6 text-sm">
-                                                {ind + 1}.
-                                            </span>
+                                        <div
+                                            className="flex items-center my-2"
+                                            key={op.uuid}
+                                        >
+                                            {model.type ===
+                                                "multiple choice" && (
+                                                <input
+                                                    type="radio"
+                                                    className="mr-2 w-6 h-6"
+                                                    disabled
+                                                />
+                                            )}
+                                            {model.type === "checkboxes" && (
+                                                <input
+                                                    type="checkbox"
+                                                    className="mr-2  w-5 h-5"
+                                                    disabled
+                                                />
+                                            )}
+                                            {model.type === "dropdown" && (
+                                                <span className="mr-2 text-sm">
+                                                    {ind + 1}.
+                                                </span>
+                                            )}
                                             <input
                                                 type="text"
                                                 placeholder="Option"
@@ -137,11 +208,9 @@ export default function QuestionEditor({
                                                 className="w-full rounded-sm p-2 text-xs border border-gray-300 form-control"
                                             />
                                             <button
-                                                onClick={(ev) =>
-                                                    deleteOption(op)
-                                                }
+                                                onClick={() => deleteOption(op)}
                                                 type="button"
-                                                className="h-8 w-8 rounded-full flex items-center text-gray-700 justify-center  hover:bg-red-50 hover:text-red-500 p-2  mx-1"
+                                                className="h-8 w-8 rounded-full flex items-center text-gray-700 justify-center hover:bg-red-50 hover:text-red-500 p-2 mx-1"
                                             >
                                                 <Tooltip
                                                     arrow
@@ -149,7 +218,7 @@ export default function QuestionEditor({
                                                     placement="right"
                                                     TransitionComponent={Fade}
                                                 >
-                                                    <XMarkIcon className="w-5 h-5 " />
+                                                    <XMarkIcon className="w-5 h-5" />
                                                 </Tooltip>
                                             </button>
                                         </div>
@@ -161,7 +230,7 @@ export default function QuestionEditor({
                                 <button
                                     onClick={addOption}
                                     type="button"
-                                    className="flex items-center text-xs py-1 px-2 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
+                                    className="flex items-center text-xs py-1 px-2 rounded-md text-white bg-gray-500 hover:bg-gray-700"
                                 >
                                     Add option
                                 </button>
@@ -170,7 +239,7 @@ export default function QuestionEditor({
                     )}
                 </div>
                 <Divider />
-                <div className="flex justify-end my-2 ">
+                <div className="flex justify-end my-2">
                     <div className="flex items-center self-center">
                         <Tooltip
                             arrow
@@ -194,7 +263,7 @@ export default function QuestionEditor({
                         >
                             <button
                                 type="button"
-                                className="flex items-center text-xs text-gray-500 hover:bg-red-100 hover:text-red-500 p-2 rounded-full "
+                                className="flex items-center text-xs text-gray-500 hover:bg-red-100 hover:text-red-500 p-2 rounded-full"
                                 onClick={() => deleteQuestion(question)}
                             >
                                 <TrashIcon className="w-5 h-5" />

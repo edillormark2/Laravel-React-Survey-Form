@@ -15,11 +15,16 @@ axiosClient.interceptors.response.use(
         return response;
     },
     (error) => {
-        if (error.response && error.response.status === 401) {
-            localStorage.removeItem("TOKEN");
-            window.location.reload();
-            // router.navigate("/login");
-            return error;
+        if (error.response) {
+            if (error.response.status === 401) {
+                localStorage.removeItem("TOKEN");
+                window.location.reload();
+                // router.navigate("/login");
+                return error;
+            }
+            console.error("API error:", error.response.data);
+        } else {
+            console.error("Network error:", error);
         }
         throw error;
     }

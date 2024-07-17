@@ -31,8 +31,8 @@ class SurveyController extends Controller
 
         return SurveyResource::collection(
             Survey::where("user_id", $user->id)
-            ->orderBy("created_at","desc")
-            ->paginate(4)
+                ->orderBy("created_at", "desc")
+                ->paginate(4)
         );
     }
 
@@ -50,7 +50,7 @@ class SurveyController extends Controller
 
         $survey = Survey::create($data);
 
-        foreach ($data['questions'] as $question){
+        foreach ($data['questions'] as $question) {
             $question['survey_id'] = $survey->id;
             $this->createQuestion($question);
         }
@@ -129,14 +129,14 @@ class SurveyController extends Controller
     public function destroy(Survey $survey, Request $request)
     {
         $user = $request->user();
-        if ($user->id !== $survey->user_id){
+        if ($user->id !== $survey->user_id) {
             return abort(403, 'Unauthorized action');
         }
 
         $survey->delete();
 
         // If there is an old image, delete it
-        if ($survey->image){
+        if ($survey->image) {
             $absolutePath = public_path($survey->image);
             File::delete($absolutePath);
         }
@@ -144,7 +144,7 @@ class SurveyController extends Controller
         return response('', 204);
     }
 
-     /**
+    /**
      * Save image in local file system and return saved image path
      *
      * @param $image
@@ -154,43 +154,43 @@ class SurveyController extends Controller
     private function saveImage($image)
     {
         // Check if image is valid base64 string
-        if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)){
+        if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
             // Take out the base64 encoded text without mime type
             $image = substr($image, strpos($image, ',') + 1);
             // Get file extension
             $type = strtolower($type[1]); // jpg, png, gif
-    
+
             // Check if file is an image
             if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
                 throw new \Exception('invalid image type');
             }
-            $image = str_replace('','+', $image);
+            $image = str_replace('', '+', $image);
             $image = base64_decode($image);
-    
+
             if ($image === false) {
                 throw new \Exception('base64_decode failed');
             }
         } else {
             throw new \Exception('did not match data URI with image data');
         }
-    
+
         $dir = 'images/';
         $file = Str::random() . '.' . $type;
         $absolutePath = public_path($dir);
         $relativePath = $dir . $file;
-    
+
         // Check if the directory exists, if not create it
         if (!File::exists($absolutePath)) {
             File::makeDirectory($absolutePath, 0755, true);
         }
-    
+
         file_put_contents($absolutePath . '/' . $file, $image);
-    
+
         return $relativePath;
     }
-    
 
-     /**
+
+    /**
      * Create a question and return
      *
      * @param $data
@@ -206,7 +206,8 @@ class SurveyController extends Controller
         $validator = Validator::make($data, [
             'question' => 'required|string',
             'type' => [
-                'required', new Enum(QuestionTypeEnum::class)
+                'required',
+                new Enum(QuestionTypeEnum::class)
             ],
             'description' => 'nullable|string',
             'data' => 'present',
@@ -216,7 +217,7 @@ class SurveyController extends Controller
         return SurveyQuestion::create($validator->validated());
     }
 
-     /**
+    /**
      * Update a question and return true or false
      *
      * @param \App\Models\SurveyQuestion $question
@@ -234,7 +235,8 @@ class SurveyController extends Controller
             'id' => 'exists:App\Models\SurveyQuestion,id',
             'question' => 'required|string',
             'type' => [
-               'required', new Enum(QuestionTypeEnum::class)
+                'required',
+                new Enum(QuestionTypeEnum::class)
             ],
             'description' => 'nullable|string',
             'data' => 'present',
@@ -248,16 +250,16 @@ class SurveyController extends Controller
         if (!$survey->status) {
             return response()->json(['message' => "Sorry, this {$survey->title} is already closed. Try contacting the owner of the form if you think this is a mistake"], 404);
         }
-    
+
         $currentDate = new \DateTime();
         $expireDate = new \DateTime($survey->expire_date);
         if ($currentDate > $expireDate) {
             return response()->json(['message' => "The form {$survey->title} is no longer accepting responses. Try contacting the owner of the form if you think this is a mistake."], 404);
         }
-    
+
         return new SurveyResource($survey);
     }
-    
+
 
     public function storeAnswer(StoreSurveyAnswerRequest $request, Survey $survey)
     {
@@ -286,6 +288,20 @@ class SurveyController extends Controller
 
         return response("", 201);
     }
+
+
+    public function responses(Survey $survey, Request $request)
+    {
+        $user = $request->user();
+        if ($user->id !== $survey->user_id) {
+            return abort(403, 'Unauthorized action');
+        }
+
+        $responses = SurveyAnswer::where('survey_id', $survey->id)->with('answers')->get();
+        return response()->json($responses);
+    }
+
+
 
 
 

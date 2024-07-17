@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
+
 class SurveyResourceDashboard extends JsonResource
 {
     /**
@@ -15,7 +16,7 @@ class SurveyResourceDashboard extends JsonResource
     public function toArray($request)
     {
         return [
-           'id' => $this->id,
+            'id' => $this->id,
             'image_url' => $this->image ? URL::to($this->image) : null,
             'title' => $this->title,
             'slug' => $this->slug,

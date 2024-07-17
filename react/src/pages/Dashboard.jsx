@@ -6,6 +6,7 @@ import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Loader from "../components/Loader";
 import { Divider } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -25,6 +26,12 @@ export default function Dashboard() {
                 return error;
             });
     }, []);
+
+    const navigate = useNavigate();
+
+    const handleViewResponses = (surveyId) => {
+        navigate(`/surveys/${surveyId}/responses`);
+    };
 
     return (
         <div>
@@ -75,7 +82,7 @@ export default function Dashboard() {
                                             {data.latestSurvey.title}
                                         </h3>
                                         <div className="flex justify-between text-sm mb-1 mt-2">
-                                            <div>Create Date:</div>
+                                            <div>Created Date:</div>
                                             <div>
                                                 {data.latestSurvey.created_at}
                                             </div>
@@ -101,7 +108,7 @@ export default function Dashboard() {
                                             </div>
                                         </div>
                                         <div className="flex justify-between text-sm mb-3">
-                                            <div>Answers:</div>
+                                            <div>Responses:</div>
                                             <div>
                                                 {data.latestSurvey.answers}
                                             </div>
@@ -117,7 +124,14 @@ export default function Dashboard() {
                                                 </button>
                                             </Link>
 
-                                            <button className="flex text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg">
+                                            <button
+                                                className="flex text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg"
+                                                onClick={() =>
+                                                    handleViewResponses(
+                                                        data.latestSurvey.id
+                                                    )
+                                                }
+                                            >
                                                 <EyeIcon className="w-5 h-5 mr-2" />
                                                 View Responses
                                             </button>

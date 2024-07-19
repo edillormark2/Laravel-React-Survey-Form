@@ -26,11 +26,16 @@ export default function Dashboard() {
                 return error;
             });
     }, []);
+    
 
     const navigate = useNavigate();
 
     const handleViewResponses = (surveyId) => {
         navigate(`/surveys/${surveyId}/responses`);
+    };
+
+    const handleViewDetail = (surveyId, responseId) => {
+        navigate(`/surveys/${surveyId}/responses/${responseId}`);
     };
 
     const formatDate = (dateString) => {
@@ -42,13 +47,14 @@ export default function Dashboard() {
         const expiration = new Date(expireDate).setHours(0, 0, 0, 0);
         return expiration <= today;
     };
+
     return (
         <div>
             {loading && <Loader />}
             {!loading && (
-                <div className="flex flex-col lg:flex-row w-full  xl:w-3/4 mx-auto gap-5 text-gray-700">
+                <div className="flex flex-col lg:flex-row w-full xl:w-3/4 mx-auto gap-5 text-gray-700">
                     <div className="flex flex-col w-full lg:w-3/4">
-                        {/*Card section */}
+                        {/* Card section */}
                         <div className="flex gap-4">
                             <DashboardCard
                                 className="order-1 lg:order-2 w-full rounded-lg p-8"
@@ -57,7 +63,7 @@ export default function Dashboard() {
                                 <div className="text-5xl pb-2 font-semibold">
                                     {data.totalSurveys}
                                 </div>
-                                <p className=" text-blue-400">Total Surveys</p>
+                                <p className="text-blue-400">Total Surveys</p>
                             </DashboardCard>
                             <DashboardCard
                                 className="order-2 lg:order-4 w-full rounded-lg p-8"
@@ -66,20 +72,18 @@ export default function Dashboard() {
                                 <div className="text-5xl pb-2 font-semibold">
                                     {data.totalAnswers}
                                 </div>
-                                <p className=" text-blue-400">
-                                    Total Responses
-                                </p>
+                                <p className="text-blue-400">Total Responses</p>
                             </DashboardCard>
                         </div>
 
-                        {/*Latest survey section */}
+                        {/* Latest survey section */}
                         <div className="mt-4">
                             <DashboardCard
                                 className="order-3 lg:order-1 row-span-2 p-6"
                                 style={{ animationDelay: "0.2s" }}
                             >
                                 <p className="font-semibold mb-4">
-                                    Lastest Survey
+                                    Latest Survey
                                 </p>
                                 {data.latestSurvey && (
                                     <div>
@@ -159,7 +163,7 @@ export default function Dashboard() {
                                 )}
                                 {!data.latestSurvey && (
                                     <div className="text-gray-600 text-center py-16">
-                                        Your don't have surveys yet
+                                        You don't have surveys yet
                                     </div>
                                 )}
                             </DashboardCard>
@@ -172,17 +176,23 @@ export default function Dashboard() {
                             style={{ animationDelay: "0.3s" }}
                         >
                             <p className="font-semibold mb-4">
-                                Lastest Responses
+                                Latest Responses
                             </p>
-                            {data.latestAnswers.length && (
-                                <div className="text-left">
+                            {data.latestAnswers &&
+                            data.latestAnswers.length > 0 ? (
+                                <div className="text-left  h-96 overflow-y-auto">
                                     {data.latestAnswers.map((answer) => (
-                                        <div className="border-b-1 border-gray-200 py-2">
-                                            <a
-                                                href="#"
-                                                key={answer.id}
-                                                className="px-4 py-2 hover:bg-gray-50 rounded-lg flex justify-between "
-                                            >
+                                        <div
+                                            key={answer.id}
+                                            className="border-b-1 border-gray-200 py-2 cursor-pointer"
+                                            onClick={() =>
+                                                handleViewDetail(
+                                                    data.latestSurvey.id,
+                                                    answer.id
+                                                )
+                                            }
+                                        >
+                                            <div className="px-4 py-2 hover:bg-gray-50 rounded-lg flex justify-between ">
                                                 <div className="font-semibold text-blue-400">
                                                     {answer.survey.title}
                                                 </div>
@@ -193,14 +203,13 @@ export default function Dashboard() {
                                                         )}
                                                     </p>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
-                            )}
-                            {!data.latestAnswers.length && (
+                            ) : (
                                 <div className="text-gray-600 text-center py-16">
-                                    Your don't have answers yet
+                                    You don't have answers yet
                                 </div>
                             )}
                         </DashboardCard>

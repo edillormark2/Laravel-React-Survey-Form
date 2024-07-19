@@ -5,6 +5,7 @@ import {
     LinkIcon,
     PhotoIcon,
     TrashIcon,
+    UsersIcon,
 } from "@heroicons/react/24/outline";
 import TButton from "../components/core/TButton";
 import axiosClient from "../axios.js";
@@ -123,6 +124,10 @@ export default function SurveyView() {
         navigate(-1);
     }
 
+    const handleViewResponses = (surveyId) => {
+        navigate(`/surveys/${surveyId}/responses`);
+    };
+
     return (
         <div className="w-full min-h-screen ">
             {loading && <Loader />}
@@ -161,6 +166,21 @@ export default function SurveyView() {
                                         className="flex items-center rounded-full p-4 cursor-pointer hover:bg-gray-100"
                                     >
                                         <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-800" />
+                                    </button>
+                                </Tooltip>
+                                <Tooltip
+                                    arrow
+                                    title="Responses"
+                                    placement="bottom"
+                                    TransitionComponent={Fade}
+                                >
+                                    <button
+                                        onClick={() =>
+                                            handleViewResponses(survey.id)
+                                        }
+                                        className="flex items-center rounded-full p-4 cursor-pointer hover:bg-gray-100"
+                                    >
+                                        <UsersIcon className="w-5 h-5 text-gray-800" />
                                     </button>
                                 </Tooltip>
                                 <Tooltip

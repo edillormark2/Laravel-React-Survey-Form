@@ -118,7 +118,10 @@ export default function SurveyResponse() {
                 </div>
             </div>
             <div className="w-full flex gap-4 flex-col">
-                <div className="bg-white rounded-lg w-full flex bg-gradient-to-r from-blue-400 to-blue-800">
+                <div
+                    className="bg-white rounded-lg w-full flex bg-gradient-to-r from-blue-400 to-blue-800 animate-fade-in-down"
+                    style={{ animationDelay: "0.2s" }}
+                >
                     <div className="w-full ml-8 text-white mt-14">
                         <div className="flex gap-2">
                             <p className="text-5xl font-semibold">
@@ -139,7 +142,10 @@ export default function SurveyResponse() {
                     )}
                 </div>
 
-                <div className="bg-white rounded-lg p-4 w-full h-full">
+                <div
+                    className="bg-white rounded-lg p-4 w-full h-full animate-fade-in-down"
+                    style={{ animationDelay: "0.3s" }}
+                >
                     <DataGrid
                         sx={{
                             [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:

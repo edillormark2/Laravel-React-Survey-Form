@@ -25,6 +25,12 @@ export default function SurveyView() {
     const [openSharePopup, setOpenSharePopup] = useState(false);
     const [shareLink, setShareLink] = useState("");
 
+    const getTomorrowDate = () => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 2);
+        return tomorrow.toISOString().split("T")[0];
+    };
+
     const [survey, setSurvey] = useState({
         title: "",
         slug: "",
@@ -32,7 +38,7 @@ export default function SurveyView() {
         description: "",
         image: null,
         image_url: null,
-        expire_date: new Date().toLocaleDateString("en-CA"),
+        expire_date: getTomorrowDate(),
         questions: [],
     });
 
@@ -421,7 +427,7 @@ export default function SurveyView() {
                                         onQuestionsUpdate={onQuestionsUpdate}
                                     />
                                 </div>
-                                <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                                <div className="py-3 text-right">
                                     <TButton>Save</TButton>
                                 </div>
                             </div>

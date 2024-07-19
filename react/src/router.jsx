@@ -10,6 +10,7 @@ import Surveys from "./pages/Surveys";
 import SurveyView from "./pages/SurveyView";
 import SurveyPublicView from "./pages/SurveyPublicView";
 import SurveyResponse from "./pages/SurveyResponse";
+import Respondent from "./pages/Respondent";
 
 const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
             {
                 path: "/surveys/:id/responses",
                 element: <SurveyResponse />,
+            },
+            {
+                path: "/surveys/:surveyId/responses/:responseId",
+                element: <Respondent />,
             },
         ],
     },

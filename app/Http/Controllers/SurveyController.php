@@ -348,6 +348,61 @@ class SurveyController extends Controller
     }
 
 
+    public function getResponseDetails($surveyId, $responseId)
+    {
+        // Fetch survey with related questions
+        $survey = Survey::with(['questions'])->findOrFail($surveyId);
+
+        // Find the SurveyAnswer with the correct surveyId and responseId
+        $response = SurveyAnswer::where('id', $responseId)
+            ->where('survey_id', $surveyId)
+            ->with('answers')
+            ->first();
+
+        if (!$response) {
+            return response()->json(['message' => 'Response not found'], 404);
+        }
+
+        // Ensure answers are present and log them
+        $answers = $response->answers->mapWithKeys(function ($answer) {
+            return [$answer->survey_question_id => $answer->answer];
+        });
+
+        \Log::info('Answers Map:', $answers->toArray());
+
+        // Retrieve and map the answers for the survey questions
+        $questions = $survey->questions->map(function ($question) use ($answers) {
+            return [
+                'id' => $question->id,
+                'type' => $question->type,
+                'question' => $question->question,
+                'data' => json_decode($question->data),
+                'answer' => $answers->get($question->id) // Use the map to retrieve answers
+            ];
+        });
+
+        // Return the survey details including image URL
+        return response()->json([
+            'title' => $survey->title,
+            'description' => $survey->description,
+            'status' => $survey->status,
+            'image_url' => $survey->image ? url($survey->image) : null,
+            'questions' => $questions
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

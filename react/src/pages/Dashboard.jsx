@@ -5,8 +5,8 @@ import TButton from "../components/core/TButton.jsx";
 import { EyeIcon, PencilIcon } from "@heroicons/react/24/outline";
 import Loader from "../components/Loader";
 import { Divider } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -31,6 +31,16 @@ export default function Dashboard() {
 
     const handleViewResponses = (surveyId) => {
         navigate(`/surveys/${surveyId}/responses`);
+    };
+
+    const formatDate = (dateString) => {
+        return format(new Date(dateString), "MMMM, dd yyyy | hh:mm a");
+    };
+
+    const isSurveyExpired = (expireDate) => {
+        const today = new Date().setHours(0, 0, 0, 0);
+        const expiration = new Date(expireDate).setHours(0, 0, 0, 0);
+        return expiration <= today;
     };
 
     return (
@@ -84,21 +94,30 @@ export default function Dashboard() {
                                         <div className="flex justify-between text-sm mb-1 mt-2">
                                             <div>Created Date:</div>
                                             <div>
-                                                {data.latestSurvey.created_at}
+                                                {formatDate(
+                                                    data.latestSurvey.created_at
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex justify-between text-sm mb-1">
                                             <div>Expire Date:</div>
                                             <div>
-                                                {data.latestSurvey.expire_date}
+                                                {formatDate(
+                                                    data.latestSurvey
+                                                        .expire_date
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex justify-between text-sm mb-1">
                                             <div>Status:</div>
                                             <div>
-                                                {data.latestSurvey.status
+                                                {isSurveyExpired(
+                                                    data.latestSurvey.status
+                                                )
+                                                    ? "Expired"
+                                                    : survey.status
                                                     ? "Active"
-                                                    : "Draft"}
+                                                    : "Closed"}
                                             </div>
                                         </div>
                                         <div className="flex justify-between text-sm mb-1">
@@ -169,7 +188,9 @@ export default function Dashboard() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm bg-gray-50 py-1 px-2 rounded-lg">
-                                                        {answer.end_date}
+                                                        {formatDate(
+                                                            answer.end_date
+                                                        )}
                                                     </p>
                                                 </div>
                                             </a>

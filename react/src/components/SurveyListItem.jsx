@@ -46,7 +46,7 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
                 className={`absolute top-6 right-6 text-xs py-1 px-2 rounded-full 
         ${
             isSurveyExpired(survey.expire_date)
-                ? "bg-yellow-50 text-yellow-500 border border-yellow-300"
+                ? "bg-yellow-300 bg-opacity-50 text-yellow-600 border border-yellow-300"
                 : survey.status
                 ? "bg-green-400 bg-opacity-15 text-green-500 border border-green-300"
                 : "bg-red-400 bg-opacity-15 text-red-500 border border-red-300"

@@ -9,6 +9,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import { FaArrowLeft } from "react-icons/fa6";
 import { format } from "date-fns";
+import { MdOutlineInfo } from "react-icons/md";
 
 export default function SurveyResponse() {
     const { id } = useParams();
@@ -49,6 +50,10 @@ export default function SurveyResponse() {
     if (!Array.isArray(responses) || responses.length === 0)
         return <div>No responses found for this survey</div>;
 
+    function handleViewDetail(surveyId, responseId) {
+        navigate(`/surveys/${surveyId}/responses/${responseId}`);
+    }
+
     const columns = [
         {
             field: "answer",
@@ -71,6 +76,33 @@ export default function SurveyResponse() {
             flex: 1,
             minWidth: 150,
         },
+        {
+            field: "action",
+            headerAlign: "center",
+            headerName: "Action",
+            flex: 1,
+            minWidth: 120,
+            renderCell: (params) => (
+                <div className="flex justify-center gap-2">
+                    <Tooltip
+                        arrow
+                        title="View Details"
+                        placement="right"
+                        TransitionComponent={Fade}
+                    >
+                        <div
+                            onClick={() => handleViewDetail(id, params.row.id)}
+                            className="p-2 my-2 rounded-lg text-black cursor-pointer border"
+                        >
+                            <MdOutlineInfo
+                                size={18}
+                                className="text-gray-600"
+                            />
+                        </div>
+                    </Tooltip>
+                </div>
+            ),
+        },
     ];
 
     const rows = responses
@@ -78,7 +110,7 @@ export default function SurveyResponse() {
             response.answers.map((answer) => {
                 const createdAt = new Date(answer.created_at);
                 return {
-                    id: `${index}-${answer.id}`,
+                    id: answer.survey_answer_id,
                     question: answer.survey_question_id,
                     answer: answer.is_special ? answer.answer : "",
                     date: format(createdAt, "MMMM d, yyyy"),

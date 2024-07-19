@@ -288,8 +288,6 @@ class SurveyController extends Controller
 
         return response("", 201);
     }
-
-
     public function responses(Survey $survey, Request $request)
     {
         $user = $request->user();
@@ -297,11 +295,57 @@ class SurveyController extends Controller
             return abort(403, 'Unauthorized action');
         }
 
-        $responses = SurveyAnswer::where('survey_id', $survey->id)->with('answers')->get();
-        return response()->json($responses);
+        // Fetch all questions related to the survey
+        $questions = $survey->questions;
+
+        // Define special questions
+        $specialQuestions = ['Full name', 'Name', 'First name'];
+
+        // Fetch all responses with answers
+        $responses = SurveyAnswer::where('survey_id', $survey->id)
+            ->with('answers')
+            ->get();
+
+        // Transform responses to filter only special answers
+        $transformedResponses = $responses->map(function ($response) use ($questions, $specialQuestions) {
+            $answers = $response->answers->filter(function ($answer) use ($questions, $specialQuestions) {
+                // Find the question for the answer
+                $question = $questions->firstWhere('id', $answer->survey_question_id);
+
+                // Check if the question is one of the special types
+                return $question && in_array($question->question, $specialQuestions);
+            })->map(function ($answer) use ($questions) {
+                // Find the question for the answer
+                $question = $questions->firstWhere('id', $answer->survey_question_id);
+
+                // Add a flag for special questions
+                $answer->is_special = true;
+                return $answer;
+            });
+
+            return [
+                'id' => $response->id,
+                'answers' => $answers
+            ];
+        })->filter(function ($response) {
+            return $response['answers']->isNotEmpty();
+        });
+
+        return response()->json($transformedResponses);
     }
 
+    public function countResponses(Survey $survey, Request $request)
+    {
+        $user = $request->user();
+        if ($user->id !== $survey->user_id) {
+            return abort(403, 'Unauthorized action');
+        }
 
+        // Count the number of responses
+        $count = SurveyAnswer::where('survey_id', $survey->id)->count();
+
+        return response()->json(['count' => $count]);
+    }
 
 
 

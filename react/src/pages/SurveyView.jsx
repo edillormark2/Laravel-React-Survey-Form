@@ -111,7 +111,7 @@ export default function SurveyView() {
     const isSurveyExpired = (expireDate) => {
         const today = new Date().setHours(0, 0, 0, 0);
         const expiration = new Date(expireDate).setHours(0, 0, 0, 0);
-        return expiration < today;
+        return expiration <= today;
     };
 
     const handleOpenShare = () => {

@@ -3,12 +3,16 @@ import {
     ArrowTopRightOnSquareIcon,
     EyeIcon,
     PencilIcon,
+    PencilSquareIcon,
     TrashIcon,
+    UserIcon,
+    UsersIcon,
 } from "@heroicons/react/24/outline";
 import TButton from "./core/TButton";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import ShareSurveyPopup from "./ShareSurveyPopup";
+import { useNavigate } from "react-router-dom";
 
 export default function SurveyListItem({ survey, onDeleteClick }) {
     const [openSharePopup, setOpenSharePopup] = useState(false);
@@ -17,12 +21,18 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
     const isSurveyExpired = (expireDate) => {
         const today = new Date().setHours(0, 0, 0, 0);
         const expiration = new Date(expireDate).setHours(0, 0, 0, 0);
-        return expiration < today;
+        return expiration <= today;
     };
 
     const handleOpenShare = () => {
         setShareLink(`${window.location.origin}/survey/public/${survey.slug}`);
         setOpenSharePopup(true);
+    };
+
+    const navigate = useNavigate();
+
+    const handleViewResponses = (surveyId) => {
+        navigate(`/surveys/${surveyId}/responses`);
     };
 
     return (
@@ -86,19 +96,16 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
                     </Tooltip>
                     <Tooltip
                         arrow
-                        title="Preview"
+                        title="Responses"
                         placement="bottom"
                         TransitionComponent={Fade}
                     >
-                        <a
-                            href={`/survey/public/${survey.slug}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <button
+                            onClick={() => handleViewResponses(survey.id)}
+                            className="flex items-center hover:bg-green-100 rounded-full p-2 hover:text-green-500"
                         >
-                            <button className="flex items-center hover:bg-green-100 rounded-full p-2 hover:text-green-500">
-                                <EyeIcon className="w-5 h-5" />
-                            </button>
-                        </a>
+                            <UsersIcon className="w-5 h-5" />
+                        </button>
                     </Tooltip>
 
                     {survey.id && (

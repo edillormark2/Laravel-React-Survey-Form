@@ -42,7 +42,6 @@ export default function Dashboard() {
         const expiration = new Date(expireDate).setHours(0, 0, 0, 0);
         return expiration <= today;
     };
-
     return (
         <div>
             {loading && <Loader />}
@@ -112,10 +111,11 @@ export default function Dashboard() {
                                             <div>Status:</div>
                                             <div>
                                                 {isSurveyExpired(
-                                                    data.latestSurvey.status
+                                                    data.latestSurvey
+                                                        .expire_date
                                                 )
                                                     ? "Expired"
-                                                    : survey.status
+                                                    : data.latestSurvey.status
                                                     ? "Active"
                                                     : "Closed"}
                                             </div>

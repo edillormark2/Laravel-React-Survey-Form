@@ -5,7 +5,8 @@ import { useStateContext } from "../contexts/ContextProvider";
 import Footer from "../components/Footer";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Loader as RsuiteLoader } from "rsuite";
-import "rsuite/dist/rsuite.min.css"; // Ensure correct import for rsuite styles
+import "rsuite/dist/rsuite.min.css";
+import Bulb from "../components/Bulb";
 
 export default function Login() {
     const { setCurrentUser, setUserToken } = useStateContext();
@@ -53,7 +54,10 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col justify-between">
+        <div className="relative min-h-screen flex flex-col justify-between">
+            <div className="absolute top-10 right-10">
+                <Bulb />
+            </div>
             <div className="flex flex-col items-center my-auto w-full max-w-lg mx-auto">
                 {error && (
                     <div

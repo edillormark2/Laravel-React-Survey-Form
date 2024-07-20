@@ -6,6 +6,7 @@ import Footer from "../components/Footer.jsx";
 import { FaEye, FaEyeSlash, FaLightbulb } from "react-icons/fa";
 import { Loader as RsuiteLoader } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
+import Bulb from "../components/Bulb.jsx";
 
 export default function Signup() {
     const { setCurrentUser, setUserToken } = useStateContext();
@@ -67,7 +68,10 @@ export default function Signup() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col justify-between">
+        <div className="relative min-h-screen flex flex-col justify-between">
+            <div className="absolute top-10 right-10">
+                <Bulb />
+            </div>
             <div className="flex flex-col items-center my-auto w-full max-w-lg mx-auto">
                 {error.__html && (
                     <div

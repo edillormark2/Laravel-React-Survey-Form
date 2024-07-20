@@ -48,8 +48,8 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
             isSurveyExpired(survey.expire_date)
                 ? "bg-yellow-300 bg-opacity-50 text-yellow-600 border border-yellow-300"
                 : survey.status
-                ? "bg-green-400 bg-opacity-15 text-green-500 border border-green-300"
-                : "bg-red-400 bg-opacity-15 text-red-500 border border-red-300"
+                ? "bg-green-300 bg-opacity-40 text-green-500 border border-green-300"
+                : "bg-red-300 bg-opacity-40 text-red-500 border border-red-300"
         }`}
             >
                 {isSurveyExpired(survey.expire_date)

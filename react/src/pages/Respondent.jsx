@@ -56,7 +56,7 @@ export default function Respondent() {
 
     return (
         <div className="min-h-screen w-full relative">
-            <div className="py-8 w-11/12 md:w-3/4 xl:w-1/2 mx-auto">
+            <div className=" w-11/12 md:w-3/4 xl:w-1/2 mx-auto">
                 <div
                     className="flex justify-between mb-4 bg-white rounded-lg px-4 w-full animate-fade-in-down"
                     style={{ animationDelay: "0.1s" }}

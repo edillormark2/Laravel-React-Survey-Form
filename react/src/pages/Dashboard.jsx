@@ -26,7 +26,6 @@ export default function Dashboard() {
                 return error;
             });
     }, []);
-    
 
     const navigate = useNavigate();
 
@@ -60,7 +59,7 @@ export default function Dashboard() {
                                 className="order-1 lg:order-2 w-full rounded-lg p-8"
                                 style={{ animationDelay: "0.1s" }}
                             >
-                                <div className="text-5xl pb-2 font-semibold">
+                                <div className="text-4xl md:text-5xl pb-2 font-semibold">
                                     {data.totalSurveys}
                                 </div>
                                 <p className="text-blue-400">Total Surveys</p>
@@ -69,7 +68,7 @@ export default function Dashboard() {
                                 className="order-2 lg:order-4 w-full rounded-lg p-8"
                                 style={{ animationDelay: "0.2s" }}
                             >
-                                <div className="text-5xl pb-2 font-semibold">
+                                <div className="text-4xl md:text-5xl pb-2 font-semibold">
                                     {data.totalAnswers}
                                 </div>
                                 <p className="text-blue-400">Total Responses</p>
@@ -94,7 +93,7 @@ export default function Dashboard() {
                                         <h3 className="font-bold text-xl mb-3 mt-4">
                                             {data.latestSurvey.title}
                                         </h3>
-                                        <div className="flex justify-between text-sm mb-1 mt-2">
+                                        <div className="flex justify-between text-xs md:text-sm mb-1 mt-2">
                                             <div>Created Date:</div>
                                             <div>
                                                 {formatDate(
@@ -102,7 +101,7 @@ export default function Dashboard() {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="flex justify-between text-sm mb-1">
+                                        <div className="flex justify-between text-xs md:text-sm mb-1">
                                             <div>Expire Date:</div>
                                             <div>
                                                 {formatDate(
@@ -111,7 +110,7 @@ export default function Dashboard() {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="flex justify-between text-sm mb-1">
+                                        <div className="flex justify-between text-xs md:text-sm mb-1">
                                             <div>Status:</div>
                                             <div>
                                                 {isSurveyExpired(
@@ -124,13 +123,13 @@ export default function Dashboard() {
                                                     : "Closed"}
                                             </div>
                                         </div>
-                                        <div className="flex justify-between text-sm mb-1">
+                                        <div className="flex justify-between text-xs md:text-sm mb-1">
                                             <div>Questions:</div>
                                             <div>
                                                 {data.latestSurvey.questions}
                                             </div>
                                         </div>
-                                        <div className="flex justify-between text-sm mb-3">
+                                        <div className="flex justify-between text-xs md:text-sm mb-3">
                                             <div>Responses:</div>
                                             <div>
                                                 {data.latestSurvey.answers}
@@ -141,21 +140,21 @@ export default function Dashboard() {
                                             <Link
                                                 to={`/surveys/${data.latestSurvey.id}`}
                                             >
-                                                <button className="flex text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg">
-                                                    <PencilIcon className="w-5 h-5 mr-2" />
+                                                <button className="flex text-xs md:text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg">
+                                                    <PencilIcon className="w-4 md:w-5 h-4 md:h-5 mr-2" />
                                                     Edit Survey
                                                 </button>
                                             </Link>
 
                                             <button
-                                                className="flex text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg"
+                                                className="flex text-xs md:text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg"
                                                 onClick={() =>
                                                     handleViewResponses(
                                                         data.latestSurvey.id
                                                     )
                                                 }
                                             >
-                                                <EyeIcon className="w-5 h-5 mr-2" />
+                                                <EyeIcon className="w-4 md:w-5 h-4 md:h-5 mr-2" />
                                                 View Responses
                                             </button>
                                         </div>
@@ -193,11 +192,11 @@ export default function Dashboard() {
                                             }
                                         >
                                             <div className="px-4 py-2 hover:bg-gray-50 rounded-lg flex justify-between ">
-                                                <div className="font-semibold text-blue-400">
+                                                <div className="font-semibold text-blue-400 text-sm md:text-base">
                                                     {answer.survey.title}
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm bg-gray-50 py-1 px-2 rounded-lg">
+                                                    <p className="text-xs md:text-sm bg-gray-50 py-1 px-2 rounded-lg">
                                                         {formatDate(
                                                             answer.end_date
                                                         )}

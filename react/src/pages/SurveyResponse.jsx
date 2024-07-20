@@ -154,13 +154,13 @@ export default function SurveyResponse() {
                     className="bg-white rounded-lg w-full flex bg-gradient-to-r from-blue-400 to-blue-800 animate-fade-in-down"
                     style={{ animationDelay: "0.2s" }}
                 >
-                    <div className="w-full ml-8 text-white mt-14">
+                    <div className="w-full ml-4 md:ml-8 text-white mt-14">
                         <div className="flex gap-2">
-                            <p className="text-5xl font-semibold">
+                            <p className="text-3xl md:text-5xl font-semibold">
                                 {responseCount}
                             </p>
                         </div>
-                        <p className="text-base">
+                        <p className="text-sm md:text-base">
                             Total responses in this survey
                         </p>
                     </div>

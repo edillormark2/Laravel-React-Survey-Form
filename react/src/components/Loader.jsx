@@ -1,5 +1,5 @@
 import { Loader as RsuiteLoader } from "rsuite";
-import 'rsuite/Loader/styles/index.css';
+import "rsuite/Loader/styles/index.css";
 
 const Loader = () => {
     return (

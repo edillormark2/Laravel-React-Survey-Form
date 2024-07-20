@@ -10,8 +10,9 @@ export default function GuestLayout() {
     }
 
     return (
-        <div>
+        <div className="bg-gray-50 min-h-screen px-4">
             <Outlet />
+
         </div>
     );
 }

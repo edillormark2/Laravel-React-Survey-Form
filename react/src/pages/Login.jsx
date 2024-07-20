@@ -2,89 +2,115 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios";
 import { useStateContext } from "../contexts/ContextProvider";
+import Footer from "../components/Footer";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Loader as RsuiteLoader } from "rsuite";
+import "rsuite/dist/rsuite.min.css"; // Ensure correct import for rsuite styles
 
 export default function Login() {
     const { setCurrentUser, setUserToken } = useStateContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState({ __html: "" });
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    const onSubmit = (ev) => {
+    const toggleShowPassword = () => setShowPassword(!showPassword);
+
+    const onSubmit = async (ev) => {
         ev.preventDefault();
-        setError({ __html: "" });
+        setError("");
+        setLoading(true);
 
-        axiosClient
-            .post("/login", {
+        try {
+            const { data } = await axiosClient.post("/login", {
                 email,
                 password,
-            })
-            .then(({ data }) => {
-                setCurrentUser(data.user);
-                setUserToken(data.token);
-            })
-            .catch((error) => {
-                if (error.response) {
+            });
+            setCurrentUser(data.user);
+            setUserToken(data.token);
+        } catch (error) {
+            let errorMessage = "Email or password is incorrect";
+            if (error.response) {
+                if (error.response.status === 401) {
+                    errorMessage = "Email or password is incorrect";
+                } else {
                     const errors = error.response.data.errors || {
-                        message: [
-                            error.response.data.message || "An error occurred",
-                        ],
+                        message: [error.response.data.message || errorMessage],
                     };
                     const finalErrors = Object.values(errors).reduce(
                         (accum, next) => [...accum, ...next],
                         []
                     );
-                    setError({ __html: finalErrors.join("<br>") });
-                } else {
-                    setError({ __html: "An error occurred" });
+                    errorMessage = finalErrors.join("<br>");
                 }
-                console.error(error);
-            });
+            }
+            setError(errorMessage);
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className="animated fadeInDown h-screen">
-            <div className="flex flex-col justify-center items-center h-full">
-                {error.__html && (
+        <div className="min-h-screen flex flex-col justify-between">
+            <div className="flex flex-col items-center my-auto w-full max-w-lg mx-auto">
+                {error && (
                     <div
-                        className="w-96 bg-red-200  text-center font-semibold text-sm rounded-md  text-red-500 py-2 px-3 mb-2"
-                        dangerouslySetInnerHTML={error}
+                        className="w-full bg-red-100 text-center font-semibold text-sm rounded-md text-red-400 py-2 px-3 mb-2"
+                        dangerouslySetInnerHTML={{ __html: error }}
                     ></div>
                 )}
-                <form
-                    onSubmit={onSubmit}
-                    className="bg-white drop-shadow-lg p-8 rounded-lg w-96"
-                >
-                    <h1 className="text-xl font-bold text-center my-4">
-                        Login into your account
-                    </h1>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(ev) => setEmail(ev.target.value)}
-                        className="form-control p-3 my-3"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(ev) => setPassword(ev.target.value)}
-                        className="form-control p-3 my-3"
-                    />
-                    <button
-                        type="submit"
-                        className="w-full p-4 bg-primary font-semibold cursor-pointer text-white text-center rounded-md"
-                    >
-                        Signup
-                    </button>
-                    <p className="text-center mt-4 text-slate-500">
-                        Not Registered?
-                        <Link to="/signup" className="text-primary ml-1">
-                            Create an account
-                        </Link>
-                    </p>
-                </form>
+                <div className="bg-white drop-shadow-xl p-6 m-4 rounded-lg w-full animated fadeInDown">
+                    <form onSubmit={onSubmit} className="w-full">
+                        <h1 className="text-2xl font-semibold text-center my-4">
+                            Login into your account
+                        </h1>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(ev) => setEmail(ev.target.value)}
+                            className="form-control p-3 my-3"
+                            required
+                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Password"
+                                value={password}
+                                onChange={(ev) => setPassword(ev.target.value)}
+                                className="form-control p-3 my-3 w-full pr-10"
+                                required
+                            />
+                            <span
+                                onClick={toggleShowPassword}
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                            >
+                                {showPassword ? (
+                                    <FaEye className="w-5 h-5 text-gray-500 mr-2" />
+                                ) : (
+                                    <FaEyeSlash className="w-5 h-5 text-gray-500 mr-2" />
+                                )}
+                            </span>
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full p-4 bg-primary font-semibold cursor-pointer text-white text-center rounded-md mt-2"
+                        >
+                            {loading ? <RsuiteLoader size="sm" /> : "Login"}
+                        </button>
+                        <p className="text-center mt-4 text-slate-500 text-sm md:text-base">
+                            Don't have an account?{" "}
+                            <Link to="/signup" className="text-primary ml-1">
+                                Create an account
+                            </Link>
+                        </p>
+                    </form>
+                </div>
             </div>
+            <Footer />
         </div>
     );
 }

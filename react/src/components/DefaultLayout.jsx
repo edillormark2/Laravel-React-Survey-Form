@@ -6,6 +6,8 @@ import axiosClient from "../axios";
 import Toast from "./Toast";
 import UserProfilePopup from "./UserProfilePopup";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
+import Footer from "./Footer";
+
 
 export default function DefaultLayout() {
     const { currentUser, userToken, setCurrentUser, setUserToken } =
@@ -104,9 +106,10 @@ export default function DefaultLayout() {
                 </div>
             </div>
 
-            <div className="flex-grow p-4 md:p-10 bg-gray-100">
+            <div className="flex-grow p-4 md:p-6 bg-gray-100">
                 <Outlet />
             </div>
+            
 
             <Toast />
 
@@ -124,6 +127,7 @@ export default function DefaultLayout() {
                     </div>
                 </BasePopup>
             )}
+          
         </div>
     );
 }

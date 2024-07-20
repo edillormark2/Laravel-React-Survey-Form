@@ -175,7 +175,6 @@ export default function SurveyView() {
                                     </button>
                                 </Tooltip>
                                 <Tooltip
-                                    arrow
                                     title="Responses"
                                     placement="bottom"
                                     TransitionComponent={Fade}

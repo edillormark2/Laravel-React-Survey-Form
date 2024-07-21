@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
+import { Box } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Divider from "@mui/material/Divider";
@@ -20,7 +20,6 @@ const ShareSurveyPopup = ({ openSharePopup, setOpenSharePopup, shareLink }) => {
         left: "50%",
         transform: "translate(-50%, -50%)",
         p: 3,
-        width: "auto",
         width: "min(90%, 600px)",
         maxHeight: isMobile ? "95vh" : "calc(100vh - 100px)",
         overflowY: "auto",

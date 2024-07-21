@@ -55,10 +55,13 @@ export default function Surveys() {
                     <Breadcrumbs links={breadcrumbLinks} />
                 </div>
                 <div className="items-center py-4 ">
-                    <Link to="/surveys/create">
+                    <Link
+                        to="/surveys/create"
+                        style={{ textDecoration: "none" }}
+                    >
                         <button className="flex p-2 bg-emerald-50 border border-emerald-300 text-emerald-500 rounded-lg hover:text-white hover:bg-emerald-300  ">
                             <PlusCircleIcon className="h-6 w-6 mr-0 md:mr-2" />
-                            <p className="hidden md:block">Create new</p>
+                            <p className="hidden md:block self-center">Create new</p>
                         </button>
                     </Link>
                 </div>

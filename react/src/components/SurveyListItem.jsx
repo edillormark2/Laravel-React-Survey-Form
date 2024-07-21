@@ -12,7 +12,7 @@ import TButton from "./core/TButton";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import ShareSurveyPopup from "./ShareSurveyPopup";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SurveyListItem({ survey, onDeleteClick }) {
     const [openSharePopup, setOpenSharePopup] = useState(false);
@@ -76,10 +76,14 @@ export default function SurveyListItem({ survey, onDeleteClick }) {
             </div>
 
             <div className="flex justify-between items-center mt-3">
-                <TButton to={`/surveys/${survey.id}`}>
+                <Link
+                    to={`/surveys/${survey.id}`}
+                    style={{ textDecoration: "none" }}
+                    className="flex py-3 px-4 bg-blue-500 rounded-lg text-white  hover:text-white m-2 hover:bg-opacity-75"
+                >
                     <PencilIcon className="w-5 h-5 mr-2" />
                     Edit
-                </TButton>
+                </Link>
                 <div className="flex items-center gap-2">
                     <Tooltip
                         arrow

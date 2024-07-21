@@ -90,6 +90,7 @@ export default function Signup() {
                             value={fullName}
                             onChange={(ev) => setFullName(ev.target.value)}
                             className="form-control p-3 my-3"
+                            required
                         />
                         <input
                             type="email"
@@ -97,6 +98,7 @@ export default function Signup() {
                             value={email}
                             onChange={(ev) => setEmail(ev.target.value)}
                             className="form-control p-3 my-3"
+                            required
                         />
                         <div className="relative">
                             <input
@@ -105,6 +107,7 @@ export default function Signup() {
                                 value={password}
                                 onChange={(ev) => setPassword(ev.target.value)}
                                 className="form-control p-3 my-3 w-full pr-10"
+                                required
                             />
                             <span
                                 onClick={toggleShowPassword}
@@ -130,6 +133,7 @@ export default function Signup() {
                                     setPasswordConfirmation(ev.target.value)
                                 }
                                 className="form-control p-3 my-3 w-full pr-10"
+                                required
                             />
                             <span
                                 onClick={toggleShowPasswordConfirmation}
@@ -145,13 +149,19 @@ export default function Signup() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full p-4 bg-primary font-semibold cursor-pointer text-white text-center rounded-md mt-2"
+                            className={`w-full p-4 font-semibold cursor-pointer text-white text-center rounded-md mt-2 ${
+                                loading ? "bg-blue-300" : "bg-blue-500"
+                            }`}
                         >
                             {loading ? <RsuiteLoader size="sm" /> : "Signup"}
                         </button>
                         <p className="text-center mt-4 text-slate-500 text-sm md:text-base">
                             Have an account?{" "}
-                            <Link to="/login" className="text-primary">
+                            <Link
+                                to="/login"
+                                className="text-blue-500"
+                                style={{ textDecoration: "none" }}
+                            >
                                 Login
                             </Link>
                         </p>

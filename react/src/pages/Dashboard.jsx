@@ -152,6 +152,9 @@ export default function Dashboard() {
                                             <div className="flex justify-between mt-4">
                                                 <Link
                                                     to={`/surveys/${data.latestSurvey.id}`}
+                                                    style={{
+                                                        textDecoration: "none",
+                                                    }}
                                                 >
                                                     <button className="flex text-xs md:text-sm py-2 px-4 hover:bg-blue-50 text-blue-500 rounded-lg">
                                                         <PencilIcon className="w-4 md:w-5 h-4 md:h-5 mr-2" />

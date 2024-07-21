@@ -27,7 +27,7 @@ export default function TButton({
             case "indigo":
                 classes = [
                     ...classes,
-                    "text-indigo-500",
+                    "text-indigo-100",
                     "focus:border-indigo-500",
                 ];
                 break;
@@ -98,7 +98,11 @@ export default function TButton({
                 </a>
             )}
             {to && (
-                <Link to={to} className={classes.join(" ")}>
+                <Link
+                    to={to}
+                    className={classes.join(" ")}
+                    style={{ textDecoration: "none" }}
+                >
                     {children}
                 </Link>
             )}

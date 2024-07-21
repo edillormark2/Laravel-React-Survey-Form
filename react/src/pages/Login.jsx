@@ -101,13 +101,20 @@ export default function Login() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full p-4 bg-primary font-semibold cursor-pointer text-white text-center rounded-md mt-2"
+                            className={`w-full p-4 font-semibold cursor-pointer text-white text-center rounded-md mt-2 ${
+                                loading ? "bg-blue-300" : "bg-blue-500"
+                            }`}
                         >
                             {loading ? <RsuiteLoader size="sm" /> : "Login"}
                         </button>
+
                         <p className="text-center mt-4 text-slate-500 text-sm md:text-base">
                             Don't have an account?{" "}
-                            <Link to="/signup" className="text-primary ml-1">
+                            <Link
+                                to="/signup"
+                                className="text-blue-500 ml-1"
+                                style={{ textDecoration: "none" }}
+                            >
                                 Create an account
                             </Link>
                         </p>

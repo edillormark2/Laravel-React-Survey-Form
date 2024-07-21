@@ -8,7 +8,6 @@ import UserProfilePopup from "./UserProfilePopup";
 import { Unstable_Popup as BasePopup } from "@mui/base/Unstable_Popup";
 import Footer from "./Footer";
 
-
 export default function DefaultLayout() {
     const { currentUser, userToken, setCurrentUser, setUserToken } =
         useStateContext();
@@ -78,6 +77,7 @@ export default function DefaultLayout() {
                                     : "hover:bg-gray-100"
                             }`
                         }
+                        style={{ textDecoration: "none" }}
                     >
                         Dashboard
                     </NavLink>
@@ -90,6 +90,7 @@ export default function DefaultLayout() {
                                     : "hover:bg-gray-100"
                             }`
                         }
+                        style={{ textDecoration: "none" }}
                     >
                         Surveys
                     </NavLink>
@@ -109,7 +110,6 @@ export default function DefaultLayout() {
             <div className="flex-grow p-4 md:p-6 bg-gray-100">
                 <Outlet />
             </div>
-            
 
             <Toast />
 
@@ -127,7 +127,6 @@ export default function DefaultLayout() {
                     </div>
                 </BasePopup>
             )}
-          
         </div>
     );
 }

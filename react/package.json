@@ -27,6 +27,7 @@
         "react-router-dom": "^6.24.1",
         "react-select": "^5.8.0",
         "rsuite": "^5.66.0",
+        "uuid": "^10.0.0",
         "vite-plugin-pwa": "^0.20.0"
     },
     "devDependencies": {

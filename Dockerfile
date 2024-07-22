@@ -1,6 +1,7 @@
 FROM richarvey/nginx-php-fpm:latest 
 
-COPY . .
+# Copy the start script into the image
+COPY start.sh /usr/local/bin/start.sh
 
 # Image config
 ENV SKIP_COMPOSER 1

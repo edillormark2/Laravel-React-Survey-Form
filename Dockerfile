@@ -1,25 +1,20 @@
-# Use a base image with PHP and Nginx
-FROM richarvey/nginx-php-fpm:latest
+FROM richarvey/nginx-php-fpm:3.1.6
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy application files
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# Set up environment variables
-ENV APP_ENV=production
-ENV APP_DEBUG=false
-ENV LOG_CHANNEL=stderr
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Copy Nginx configuration
-COPY conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Expose port 80
-EXPOSE 80
-
-# Start the services
 CMD ["/start.sh"]

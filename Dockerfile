@@ -1,23 +1,25 @@
-FROM richarvey/nginx-php-fpm:latest 
+# Use a base image with PHP and Nginx
+FROM richarvey/nginx-php-fpm:latest
 
-# Copy the start script into the image
-COPY start.sh /usr/local/bin/start.sh
+# Set working directory
+WORKDIR /var/www/html
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# Copy application files
+COPY . .
 
-# Laravel config
-ENV APP_ENV staging
-ENV APP_DEBUG true
-ENV LOG_CHANNEL stderr
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
-HEALTHCHECK CMD curl --silent --fail http://localhost/health || exit 1
+# Set up environment variables
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV LOG_CHANNEL=stderr
 
+# Copy Nginx configuration
+COPY conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
 
-CMD ["/start.sh"]
+# Expose port 80
+EXPOSE 80
+
+# Start the services
+CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]

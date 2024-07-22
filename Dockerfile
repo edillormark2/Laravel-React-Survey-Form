@@ -28,4 +28,4 @@ RUN composer install --no-dev --optimize-autoloader
 EXPOSE 80
 
 # Start the PHP-FPM server
-CMD ["php-fpm"]
+CMD ["php-fpm", "-F"]

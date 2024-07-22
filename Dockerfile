@@ -22,4 +22,4 @@ COPY conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
 EXPOSE 80
 
 # Start the services
-CMD ["start.sh"]
+CMD ["/start.sh"]

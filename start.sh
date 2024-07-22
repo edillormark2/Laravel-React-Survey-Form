@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 echo "Running composer"
 composer install --no-dev --working-dir=/var/www/html
 
@@ -11,6 +10,3 @@ php artisan route:cache
 
 echo "Running migrations..."
 php artisan migrate --force
-
-# Start PHP-FPM server
-php-fpm

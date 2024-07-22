@@ -10,10 +10,10 @@ class CorsServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // Add middleware to the global stack
+        // Register middleware globally
         $this->app['router']->middleware('cors', CorsMiddleware::class);
 
-        // Register middleware for the API routes
+        // Optionally, register middleware for API routes
         $this->app['router']->group([
             'middleware' => ['cors'],
             'prefix' => 'api',

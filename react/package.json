@@ -4,7 +4,6 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "postinstall": "npm install",
         "dev": "vite --port=3000",
         "build": "vite build",
         "serve": "serve -s dist",

@@ -1,31 +1,20 @@
-# Use the official PHP image as a parent image
-FROM php:8.1-fpm
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev \
-    libzip-dev unzip git \
-    && docker-php-ext-configure gd \
-    --with-freetype \
-    --with-jpeg \
-    && docker-php-ext-install gd \
-    && docker-php-ext-install zip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the application code
+FROM richarvey/nginx-php-fpm:1.7.2
+ 
 COPY . .
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Expose port 80
-EXPOSE 80
-
-# Start the PHP-FPM server
-CMD ["php-fpm", "-F"]
+ 
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
+ 
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
+ 
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ 
+CMD ["/start.sh"]

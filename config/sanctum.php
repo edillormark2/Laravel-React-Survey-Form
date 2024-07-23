@@ -21,7 +21,7 @@ return [
             'SANCTUM_STATEFUL_DOMAINS',
             sprintf(
                 '%s%s',
-                'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,https://laravel-react-survey-form.onrender.com::1',
+                'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,https://laravel-react-survey-form.onrender.com,https://laravel-react-survey-form-production.up.railway.app::1',
                 Sanctum::currentApplicationUrlWithPort()
             )
         )

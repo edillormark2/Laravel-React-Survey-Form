@@ -20,7 +20,7 @@ class CorsMiddleware
         ]);
 
         return $response
-            ->header('Access-Control-Allow-Origin', 'https://laravel-react-survey-form.onrender.com') // Update this for production
+            ->header('Access-Control-Allow-Origin', '*') // Update this for production
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
             ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }

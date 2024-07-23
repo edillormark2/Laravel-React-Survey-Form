@@ -20,4 +20,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/survey/{survey}/responses', [SurveyController::class, 'responses'])->name('responses');
     Route::get('/survey/{survey}/responses/count', [SurveyController::class, 'countResponses']);
     Route::get('/survey/{survey}/responses/{responseId}/details', [SurveyController::class, 'getResponseDetails']);
+    // In routes/api.php
+    Route::get('/test-cors', function () {
+        return response()->json(['message' => 'CORS is working']);
+    });
+
 });

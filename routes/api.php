@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me'])->name('me');
     Route::apiResource('survey', SurveyController::class);
 
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
     Route::get('/survey/{survey}/responses', [SurveyController::class, 'responses']);
     Route::get('/survey/{survey}/responses/count', [SurveyController::class, 'countResponses']);
     Route::get('/survey/{survey}/responses/{responseId}/details', [SurveyController::class, 'getResponseDetails']);

@@ -15,9 +15,9 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', '*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', '*', 'api/signup', 'api/login', 'api/dashboard'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['https://laravel-react-survey-form.onrender.com', '*'], // Change this to your frontend URL for security
+    'allowed_origins' => ['https://laravel-react-survey-form.onrender.com', '*', 'https://laravel-react-survey-form.onrender.com/signup', 'https://laravel-react-survey-form.onrender.com/login', 'https://laravel-react-survey-form.onrender.com/dashboard'], // Change this to your frontend URL for security
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],

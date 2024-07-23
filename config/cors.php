@@ -6,7 +6,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'https://laravel-react-survey-form.onrender.com',
+        'https://laravel-react-survey-form-production.up.railway.app'
+    ],
 
     'allowed_origins_patterns' => [],
 
@@ -16,6 +19,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 
 ];

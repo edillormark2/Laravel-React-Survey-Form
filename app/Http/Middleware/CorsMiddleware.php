@@ -8,26 +8,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CorsMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->getMethod() === "OPTIONS") {
+            return response()->json('{"method":"OPTIONS"}', 200, $this->getHeaders());
+        }
+
         $response = $next($request);
-
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, X-Auth-Token, X-Requested-With');
-
-        if ($request->getMethod() === 'OPTIONS') {
-            $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, X-Auth-Token, X-Requested-With');
-            return response('', 200);
+        foreach ($this->getHeaders() as $key => $value) {
+            $response->header($key, $value);
         }
 
         return $response;
+    }
+
+    private function getHeaders()
+    {
+        return [
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers' => 'Content-Type, Authorization, Origin, X-Auth-Token, X-Requested-With',
+        ];
     }
 }

@@ -2,11 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ResponsesController;
 use App\Http\Controllers\SurveyController;
-use App\Http\Middleware\CorsMiddleware;
 use Illuminate\Support\Facades\Route;
-
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

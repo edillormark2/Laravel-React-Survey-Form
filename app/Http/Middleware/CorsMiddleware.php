@@ -11,12 +11,12 @@ class CorsMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $headers = [
-            'Access-Control-Allow-Origin' => '*', // Change '*' to your frontend URL for more secure CORS settings
+            'Access-Control-Allow-Origin' => '*', // Update this to your frontend URL for security
             'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, PUT, DELETE',
             'Access-Control-Allow-Headers' => 'Content-Type, X-Auth-Token, Origin, Authorization',
         ];
 
-        if ($request->getMethod() == "OPTIONS") {
+        if ($request->getMethod() === "OPTIONS") {
             return response()->json('OK', 200, $headers);
         }
 
@@ -29,4 +29,3 @@ class CorsMiddleware
         return $response;
     }
 }
-

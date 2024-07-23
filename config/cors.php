@@ -15,9 +15,9 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', '*', 'api/',],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', '*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'], // Consider specifying your frontend URL here
+    'allowed_origins' => ['*'], // Change this to your frontend URL for security
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],

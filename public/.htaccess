@@ -22,7 +22,7 @@
 </IfModule>
 
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "https://laravel-react-survey-form.onrender.com"
+    Header set Access-Control-Allow-Origin "*"
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, Origin, X-Auth-Token, X-Requested-With"
 </IfModule>

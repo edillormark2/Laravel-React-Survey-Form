@@ -25,6 +25,6 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 # RUN composer install --no-dev --optimize-autoloader
 
 # Copy Nginx configuration
-COPY conf/nginx-site.conf 
+COPY conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
 
 CMD ["/start.sh"]

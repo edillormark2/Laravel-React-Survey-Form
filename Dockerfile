@@ -17,10 +17,5 @@ ENV LOG_CHANNEL stderr
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Run composer install if needed
-# RUN composer install --no-dev --optimize-autoloader
-
-# Copy Nginx configuration
-COPY conf/nginx/nginx-site.conf /etc/nginx/sites-available/default
 
 CMD ["/start.sh"]

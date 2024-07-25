@@ -11,15 +11,18 @@ class CorsMiddleware
     {
         $response = $next($request);
 
-        $response->headers->set('Access-Control-Allow-Origin', 'https://laravel-react-survey-form-1.onrender.com');
-        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-        $response->headers->set('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization, X-Requested-With, X-CSRF-TOKEN');
-
-        // Handle OPTIONS requests
-        if ($request->isMethod('OPTIONS')) {
-            return response()->json('OK', 200);
+        // Handle preflight requests
+        if ($request->getMethod() === 'OPTIONS') {
+            $response = response('', 204);
         }
 
-        return $next($request);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        $response->headers->set('Access-Control-Expose-Headers', '');
+        $response->headers->set('Access-Control-Max-Age', '0');
+        $response->headers->set('Access-Control-Allow-Credentials', 'true');
+
+        return $response;
     }
 }

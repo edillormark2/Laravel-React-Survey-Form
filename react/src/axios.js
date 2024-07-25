@@ -3,6 +3,10 @@ import router from "./router";
 
 const axiosClient = axios.create({
     baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
+    headers: {
+        "Content-Type": "application/json",
+    },
+    withCredentials: true, // Include credentials (cookies) in requests
 });
 
 axiosClient.interceptors.request.use((config) => {

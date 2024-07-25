@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 
-// Apply CORS middleware to all API routes
+
 Route::middleware(['cors'])->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);

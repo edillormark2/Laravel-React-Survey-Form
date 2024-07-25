@@ -17,9 +17,9 @@ class CorsMiddleware
 
         // Handle OPTIONS requests
         if ($request->isMethod('OPTIONS')) {
-            return response()->json('OK', 200, $response->headers->all());
+            return response()->json('OK', 200);
         }
 
-        return $response;
+        return $next($request);
     }
 }

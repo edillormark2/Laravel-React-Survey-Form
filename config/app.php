@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://laravel-react-survey-form-1.onrender.com'),
+    'url' => env('APP_URL', 'https://laravel-react-survey-form-production.up.railway.app'),
 
     /*
     |--------------------------------------------------------------------------

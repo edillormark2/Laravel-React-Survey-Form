@@ -1,10 +1,6 @@
 FROM richarvey/nginx-php-fpm:3.1.6
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy application code
-COPY . /var/www/html
+COPY . .
 
 # Set environment variables
 ENV SKIP_COMPOSER 1

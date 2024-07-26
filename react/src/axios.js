@@ -5,8 +5,9 @@ const axiosClient = axios.create({
     baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
     headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", 
     },
-    withCredentials: true, // Include credentials (cookies) in requests
+    withCredentials: true,
 });
 
 axiosClient.interceptors.request.use((config) => {

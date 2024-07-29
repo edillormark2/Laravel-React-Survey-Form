@@ -1,8 +1,11 @@
 # Welcome to SurveyForm  - A web application built with React JS and Laravel framework.
 
-<video width="320" height="240" controls>
-  <source src="react/src/assets/Survey-demo-vid.mp4" type="video/mp4">
-</video>
+[Watch demo video](https://youtu.be/oYmv_GoD2Sw)
+
+<div style="display: flex; align-items: center;">
+    <img src="react/src/assets/survey-dashboard-ss.png" height="440">
+</div> 
+
 
 ## Features
 
@@ -10,7 +13,7 @@
 - **Comprehensive Survey Management** - Easily manage your surveys with our user-friendly interface. Update existing surveys, preview them before sharing, or delete them with just a click. Our dynamic card-based layout and pagination make navigating through your surveys a breeze.
 - **Customizable Survey Creation** - Create surveys tailored to your needs with various question types including multiple choice, checkboxes, dropdowns, short answers, and paragraphs. Customize your surveys with titles, descriptions, images, and set expiry dates to control when responses are accepted.
 - **Share & Publish** - Once your survey is ready, share it effortlessly by copying the survey link. Choose whether to publish your survey or keep it private – the choice is yours!
-- **Secure & User-Friendly** - Our app is designed with you in mind, featuring a clean, user-friendly interface and robust security measures, including authentication and authorization to keep your data safe.
+- **Secure & User-Friendly** -This app is designed with you in mind, featuring a clean, user-friendly interface and robust security measures, including authentication and authorization to keep your data safe.
 
 ## Technology Used
 

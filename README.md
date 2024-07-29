@@ -1,5 +1,9 @@
 # Welcome to SurveyForm  - A web application built with React JS and Laravel framework.
 
+<video width="320" height="240" controls>
+  <source src="react/src/assets/Survey-demo-vid.mp4" type="video/mp4">
+</video>
+
 ## Features
 
 - **Intuitive Dashboard** - Upon logging in, you’ll be greeted by a sleek dashboard showcasing key statistics about your surveys. Track survey and response counts, view the latest surveys and responses, all in one place.

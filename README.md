@@ -24,7 +24,7 @@
 - **Version Control** GitHub for efficient version control.
 
 ## License
-This project is all rights reserved by CinqueDev group.
+This project is all rights reserved by Mark Daniel Edillor.
 
 ## Contact
 For any questions or feedback, feel free to contact me at edillormark2@gmail.com or my Facebook account, Mark Daniel Edillor.
